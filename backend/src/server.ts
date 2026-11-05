@@ -3,6 +3,7 @@ import express, { Application } from 'express';
 import connectDB from './config/db';
 import authRoutes from './routes/auth.routes';
 import eventRoutes from './routes/event.routes';
+import participantRoutes from './routes/participant.routes';
 
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
@@ -13,6 +14,7 @@ app.use(express.json());
 // Mount routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/participants', participantRoutes);
 
 const startServer = async (): Promise<void> => {
   try {
