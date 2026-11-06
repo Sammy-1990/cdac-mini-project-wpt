@@ -56,6 +56,10 @@ const eventSchema = new Schema<IEventDocument>(
       type: Date,
       required: [true, 'Start date is required'],
     },
+    startDateIST: {
+      type: String,
+      default: '',
+    },
     endDate: {
       type: Date,
       required: [true, 'End date is required'],
@@ -68,6 +72,10 @@ const eventSchema = new Schema<IEventDocument>(
         },
         message: 'End date must be later than start date',
       },
+    },
+    endDateIST: {
+      type: String,
+      default: '',
     },
     venue: {
       type: String,

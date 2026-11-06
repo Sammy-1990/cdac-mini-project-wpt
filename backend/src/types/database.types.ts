@@ -44,7 +44,9 @@ export interface IEvent {
   description: string;
   coverImage?: string;
   startDate: Date;
+  startDateIST?: string;
   endDate: Date;
+  endDateIST?: string;
   venue: string;
   address: string;
   city: string;
@@ -87,8 +89,12 @@ export interface IEventParticipantDocument extends IEventParticipant, Document {
 // Attendance Types
 export interface IAttendance {
   participantId: Types.ObjectId;
+  participantName?: string;
+  name?: string;
   eventId: Types.ObjectId;
+  eventTitle?: string;
   checkedInAt: Date;
+  checkedInAtIST?: string;
   checkedInBy: Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;

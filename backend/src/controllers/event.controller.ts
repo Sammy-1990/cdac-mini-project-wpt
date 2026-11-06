@@ -116,6 +116,21 @@ export const createEvent = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
+    // Format dates to Indian Standard Time (IST) string for display
+    const startIST =
+      start.toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      }) + ' IST';
+
+    const endIST =
+      end.toLocaleString('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      }) + ' IST';
+
     // Create the event in MongoDB
     const newEvent = await Event.create({
       organizerId,
@@ -125,7 +140,9 @@ export const createEvent = async (req: Request, res: Response): Promise<void> =>
       description,
       coverImage: coverImage || '',
       startDate: start,
+      startDateIST: startIST,
       endDate: end,
+      endDateIST: endIST,
       venue,
       address,
       city,
@@ -397,8 +414,24 @@ export const updateEvent = async (req: Request, res: Response): Promise<void> =>
     if (eventType) event.eventType = eventType;
     if (description) event.description = description;
     if (coverImage !== undefined) event.coverImage = coverImage;
-    if (startDate) event.startDate = newStart;
-    if (endDate) event.endDate = newEnd;
+    if (startDate) {
+      event.startDate = newStart;
+      event.startDateIST =
+        newStart.toLocaleString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          dateStyle: 'medium',
+          timeStyle: 'short',
+        }) + ' IST';
+    }
+    if (endDate) {
+      event.endDate = newEnd;
+      event.endDateIST =
+        newEnd.toLocaleString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          dateStyle: 'medium',
+          timeStyle: 'short',
+        }) + ' IST';
+    }
     if (venue) event.venue = venue;
     if (address) event.address = address;
     if (city) event.city = city;
@@ -496,6 +529,48 @@ export const getMyEvents = async (req: Request, res: Response): Promise<void> =>
     res.status(500).json({
       success: false,
       message: error.message || 'Internal server error while fetching organizer events.',
+    });
+  }
+};
+
+// 7. Get All Private Events (Admin Only)
+export const getPrivateEventsAdmin = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { status, city, category, search } = req.query;
+
+    const filterQuery: any = {
+      eventType: 'private',
+    };
+
+    if (status && typeof status === 'string') {
+      filterQuery.status = status;
+    }
+
+    if (category && typeof category === 'string') {
+      filterQuery.category = category;
+    }
+
+    if (city && typeof city === 'string') {
+      filterQuery.city = { $regex: new RegExp(city.trim(), 'i') };
+    }
+
+    if (search && typeof search === 'string') {
+      filterQuery.title = { $regex: new RegExp(search.trim(), 'i') };
+    }
+
+    const privateEvents = await Event.find(filterQuery)
+      .populate('organizerId', 'fullName email')
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: privateEvents.length,
+      events: privateEvents,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Internal server error while fetching private events for admin.',
     });
   }
 };

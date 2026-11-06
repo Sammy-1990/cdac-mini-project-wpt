@@ -8,14 +8,35 @@ const attendanceSchema = new Schema<IAttendanceDocument>(
       ref: 'EventParticipant',
       required: [true, 'Participant ID is required'],
     },
+    participantName: {
+      type: String,
+      default: '',
+    },
+    name: {
+      type: String,
+      default: '',
+    },
     eventId: {
       type: Schema.Types.ObjectId,
       ref: 'Event',
       required: [true, 'Event ID is required'],
     },
+    eventTitle: {
+      type: String,
+      default: '',
+    },
     checkedInAt: {
       type: Date,
       default: Date.now,
+    },
+    checkedInAtIST: {
+      type: String,
+      default: () =>
+        new Date().toLocaleString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          dateStyle: 'medium',
+          timeStyle: 'medium',
+        }) + ' IST',
     },
     checkedInBy: {
       type: Schema.Types.ObjectId,
