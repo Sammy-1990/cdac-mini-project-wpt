@@ -42,6 +42,7 @@ export interface IEvent {
   category: EventCategory;
   eventType: EventType;
   description: string;
+  eventImage?: string;
   coverImage?: string;
   startDate: Date;
   startDateIST?: string;

@@ -18,9 +18,9 @@ export const getOrganizerDashboard = async (req: Request, res: Response): Promis
     }
 
     // 1. Fetch all events created by this organizer with details
-    const organizerEvents = await Event.find({ organizerId }).select(
-      '_id title category eventType status capacity startDate'
-    );
+    const organizerEvents = await Event.find({ organizerId })
+      .select('_id title category eventType status capacity startDate startDateIST city venue eventImage coverImage')
+      .sort({ createdAt: -1 });
     const eventIds = organizerEvents.map((e) => e._id);
 
     const publishedEvents = organizerEvents.filter((e) => e.status === 'published');
@@ -89,6 +89,11 @@ export const getOrganizerDashboard = async (req: Request, res: Response): Promis
           category: e.category,
           eventType: e.eventType,
           status: e.status,
+          startDate: e.startDate,
+          startDateIST: e.startDateIST,
+          city: e.city,
+          venue: e.venue,
+          eventImage: e.eventImage || e.coverImage || '',
         })),
 
         totalParticipants: allParticipants.length,

@@ -48,6 +48,10 @@ const eventSchema = new Schema<IEventDocument>(
       type: String,
       required: [true, 'Description is required'],
     },
+    eventImage: {
+      type: String,
+      default: '',
+    },
     coverImage: {
       type: String,
       default: '',

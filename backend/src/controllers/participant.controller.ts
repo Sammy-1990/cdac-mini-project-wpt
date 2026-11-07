@@ -573,3 +573,68 @@ export const getEventParticipants = async (req: Request, res: Response): Promise
     });
   }
 };
+
+// 9. Cancel Registration (Authenticated Guest or Admin)
+export const cancelRegistration = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const id = req.params.id as string;
+    const currentUserId = req.user?.id;
+    const currentUserRole = req.user?.role;
+
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      res.status(400).json({
+        success: false,
+        message: 'Invalid registration ID format.',
+      });
+      return;
+    }
+
+    const participant = await EventParticipant.findById(id);
+    if (!participant) {
+      res.status(404).json({
+        success: false,
+        message: 'Registration record not found.',
+      });
+      return;
+    }
+
+    // Verify ownership: user must own the registration or be an admin
+    let isOwner = participant.userId?.toString() === currentUserId;
+    if (!isOwner) {
+      const currentUserDoc = await User.findById(currentUserId);
+      if (currentUserDoc && currentUserDoc.email.toLowerCase() === participant.email.toLowerCase()) {
+        isOwner = true;
+      }
+    }
+
+    if (currentUserRole !== 'admin' && !isOwner) {
+      res.status(403).json({
+        success: false,
+        message: 'Access denied. You can only cancel your own registrations.',
+      });
+      return;
+    }
+
+    if (participant.status === 'cancelled') {
+      res.status(400).json({
+        success: false,
+        message: 'This registration has already been cancelled.',
+      });
+      return;
+    }
+
+    participant.status = 'cancelled';
+    await participant.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Registration cancelled successfully.',
+      participant,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Internal server error while cancelling registration.',
+    });
+  }
+};

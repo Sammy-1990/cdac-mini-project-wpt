@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import path from 'path';
+import fs from 'fs';
 import Event from '../models/Event';
 import EventParticipant from '../models/EventParticipant';
 import Attendance from '../models/Attendance';
@@ -28,6 +30,7 @@ export const createEvent = async (req: Request, res: Response): Promise<void> =>
       category,
       eventType,
       description,
+      eventImage,
       coverImage,
       startDate,
       endDate,
@@ -131,6 +134,10 @@ export const createEvent = async (req: Request, res: Response): Promise<void> =>
         timeStyle: 'short',
       }) + ' IST';
 
+    const uploadedImagePath = req.file
+      ? `/uploads/events/${req.file.filename}`
+      : (eventImage || coverImage || '');
+
     // Create the event in MongoDB
     const newEvent = await Event.create({
       organizerId,
@@ -138,7 +145,8 @@ export const createEvent = async (req: Request, res: Response): Promise<void> =>
       category,
       eventType,
       description,
-      coverImage: coverImage || '',
+      eventImage: uploadedImagePath,
+      coverImage: uploadedImagePath,
       startDate: start,
       startDateIST: startIST,
       endDate: end,
@@ -333,8 +341,9 @@ export const updateEvent = async (req: Request, res: Response): Promise<void> =>
     // Check ownership: logged-in user must be owner or admin
     const currentUserId = req.user?.id;
     const currentUserRole = req.user?.role;
+    const eventOwnerId = event.organizerId ? event.organizerId.toString() : '';
 
-    if (currentUserRole !== 'admin' && event.organizerId.toString() !== currentUserId) {
+    if (currentUserRole !== 'admin' && eventOwnerId && eventOwnerId !== currentUserId) {
       res.status(403).json({
         success: false,
         message: 'Access denied. You can only update your own events.',
@@ -347,6 +356,7 @@ export const updateEvent = async (req: Request, res: Response): Promise<void> =>
       category,
       eventType,
       description,
+      eventImage,
       coverImage,
       startDate,
       endDate,
@@ -413,7 +423,28 @@ export const updateEvent = async (req: Request, res: Response): Promise<void> =>
     if (category) event.category = category;
     if (eventType) event.eventType = eventType;
     if (description) event.description = description;
-    if (coverImage !== undefined) event.coverImage = coverImage;
+
+    // Handle image replacement
+    if (req.file) {
+      const oldImage = event.eventImage || event.coverImage;
+      if (oldImage && oldImage.startsWith('/uploads/events/')) {
+        try {
+          const oldFilePath = path.resolve(process.cwd(), oldImage.replace(/^\//, ''));
+          if (fs.existsSync(oldFilePath)) {
+            fs.unlinkSync(oldFilePath);
+          }
+        } catch (fileErr) {
+          console.warn('Could not remove previous image file:', fileErr);
+        }
+      }
+      const newImagePath = `/uploads/events/${req.file.filename}`;
+      event.eventImage = newImagePath;
+      event.coverImage = newImagePath;
+    } else if (eventImage !== undefined || coverImage !== undefined) {
+      const img = eventImage !== undefined ? eventImage : coverImage;
+      event.eventImage = img;
+      event.coverImage = img;
+    }
     if (startDate) {
       event.startDate = newStart;
       event.startDateIST =
@@ -484,6 +515,31 @@ export const deleteEvent = async (req: Request, res: Response): Promise<void> =>
         message: 'Access denied. You can only delete your own events.',
       });
       return;
+    }
+
+    // Business safeguard: If not an admin, only draft events or events without participants can be deleted
+    if (currentUserRole !== 'admin') {
+      const participantCount = await EventParticipant.countDocuments({ eventId: event._id });
+      if (participantCount > 0) {
+        res.status(400).json({
+          success: false,
+          message: 'Cannot delete an event with active participant registrations or invitations. Please cancel the event instead, or request an administrator.',
+        });
+        return;
+      }
+    }
+
+    // Clean up stored image file if exists
+    const imgToDelete = event.eventImage || event.coverImage;
+    if (imgToDelete && imgToDelete.startsWith('/uploads/events/')) {
+      try {
+        const filePath = path.resolve(process.cwd(), imgToDelete.replace(/^\//, ''));
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
+      } catch (fileErr) {
+        console.warn('Could not remove event image file upon event deletion:', fileErr);
+      }
     }
 
     // Delete related participants and attendance records

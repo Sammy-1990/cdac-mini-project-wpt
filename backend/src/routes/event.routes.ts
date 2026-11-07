@@ -14,6 +14,7 @@ import {
   adminOnly,
   optionalProtect,
 } from '../middlewares/auth.middleware';
+import { uploadEventImage } from '../middlewares/upload.middleware';
 
 const router = Router();
 
@@ -32,11 +33,11 @@ router.get('/admin/private', protect, adminOnly, getPrivateEventsAdmin);
 // Single event details (optionalAuth to allow checking invited status for private events)
 router.get('/:id', optionalProtect, getEventById);
 
-// Create event (Organizers and Admins only)
-router.post('/', protect, organizerOrAdmin, createEvent);
+// Create event (Organizers and Admins only, with optional local image upload)
+router.post('/', protect, organizerOrAdmin, uploadEventImage.single('eventImage'), createEvent);
 
-// Update event (Event Owner or Admin only)
-router.put('/:id', protect, organizerOrAdmin, updateEvent);
+// Update event (Event Owner or Admin only, with optional local image upload)
+router.put('/:id', protect, organizerOrAdmin, uploadEventImage.single('eventImage'), updateEvent);
 
 // Delete event (Event Owner or Admin only)
 router.delete('/:id', protect, organizerOrAdmin, deleteEvent);

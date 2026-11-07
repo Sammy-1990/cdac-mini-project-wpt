@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import User from '../models/User';
 import '../types/database.types';
 
 // Middleware to verify JWT token and protect private routes
@@ -39,13 +40,24 @@ export const protect = async (
     // 4. Verify token using jsonwebtoken
     const decoded = jwt.verify(token, jwtSecret) as { id: string; role: string };
 
-    // 5. Attach decoded user info to the request object
+    // 5. Look up current user from database to reflect any recent role updates
+    let effectiveRole = decoded.role;
+    try {
+      const dbUser = await User.findById(decoded.id).select('role');
+      if (dbUser && dbUser.role) {
+        effectiveRole = dbUser.role;
+      }
+    } catch {
+      // Fallback to decoded.role if database check fails
+    }
+
+    // 6. Attach decoded user info to the request object
     req.user = {
       id: decoded.id,
-      role: decoded.role,
+      role: effectiveRole,
     };
 
-    // 6. Call next middleware or controller
+    // 7. Call next middleware or controller
     next();
   } catch (error) {
     // Return 401 if token verification fails
@@ -103,9 +115,14 @@ export const optionalProtect = async (
       const jwtSecret = process.env.JWT_SECRET;
       if (jwtSecret) {
         const decoded = jwt.verify(token, jwtSecret) as { id: string; role: string };
+        let effectiveRole = decoded.role;
+        try {
+          const dbUser = await User.findById(decoded.id).select('role');
+          if (dbUser && dbUser.role) effectiveRole = dbUser.role;
+        } catch {}
         req.user = {
           id: decoded.id,
-          role: decoded.role,
+          role: effectiveRole,
         };
       }
     }

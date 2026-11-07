@@ -8,6 +8,7 @@ import {
   getMyRegistrations,
   getMyInvitations,
   getEventParticipants,
+  cancelRegistration,
 } from '../controllers/participant.controller';
 import {
   protect,
@@ -27,6 +28,9 @@ router.get('/event/:eventId', protect, organizerOrAdmin, getEventParticipants);
 
 // Module 3: Public event registration (authenticated user)
 router.post('/register/:eventId', protect, registerForEvent);
+
+// Cancel registration (Authenticated Guest)
+router.put('/:id/cancel', protect, cancelRegistration);
 
 // Module 4: Private event invitations
 // 1. Organizer or Admin invites a guest
