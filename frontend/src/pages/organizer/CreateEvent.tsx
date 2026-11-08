@@ -8,12 +8,10 @@ import { combineDateAndTimeToIST } from "../../utils/dateUtils";
 import {
   Calendar,
   Clock,
-  PlusCircle,
   ArrowLeft,
   CheckCircle2,
   Globe,
   Lock,
-  MapPin,
   Building2,
   Users,
   FileText,
@@ -191,7 +189,7 @@ export const CreateEvent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7FC] flex">
+    <div className="min-h-screen bg-[#111827] flex">
       <DashboardSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -204,7 +202,7 @@ export const CreateEvent: React.FC = () => {
         />
 
         <main className="p-6 sm:p-8 flex-1 max-w-4xl">
-          <div className="bg-white rounded-3xl border border-[#E9E8F0] p-6 sm:p-10 shadow-sm">
+          <div className="bg-[#1F2937] rounded-3xl border border-[#374151] p-6 sm:p-10 shadow-xl">
             {error && (
               <Alert
                 severity="error"
@@ -234,19 +232,19 @@ export const CreateEvent: React.FC = () => {
             >
               {/* SECTION A: Basic Event Information */}
               <div className="space-y-5">
-                <div className="border-b border-gray-100 pb-3">
-                  <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                    <FileText size={18} className="text-[#6C3BDB]" />
+                <div className="border-b border-[#374151] pb-3">
+                  <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                    <FileText size={18} className="text-[#00ADB5]" />
                     <span>Section A: Basic Event Information</span>
                   </h3>
-                  <p className="text-xs text-[#77778A] mt-0.5">
+                  <p className="text-xs text-[#94A3B8] mt-0.5">
                     General identification, category, and discovery visibility.
                   </p>
                 </div>
 
                 {/* Event Title */}
                 <div>
-                  <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                  <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                     Event Title *
                   </label>
                   <input
@@ -255,23 +253,23 @@ export const CreateEvent: React.FC = () => {
                     placeholder="e.g. Annual Music Concert - Mega Concert"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                    className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                   />
                 </div>
 
                 {/* Category & Event Type */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                    <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                       Event Category *
                     </label>
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value as EventCategory)}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all cursor-pointer capitalize"
+                      className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none transition-all cursor-pointer capitalize"
                     >
                       {CATEGORIES.map((cat) => (
-                        <option key={cat.value} value={cat.value}>
+                        <option key={cat.value} value={cat.value} className="bg-[#1F2937] text-[#F8FAFC]">
                           {cat.label}
                         </option>
                       ))}
@@ -279,7 +277,7 @@ export const CreateEvent: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                    <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                       Event Visibility (Type) *
                     </label>
                     <div className="grid grid-cols-2 gap-3">
@@ -289,15 +287,15 @@ export const CreateEvent: React.FC = () => {
                         onClick={() => setEventType("public")}
                         className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
                           eventType === "public"
-                            ? "border-[#6C3BDB] bg-purple-50/60 text-[#6C3BDB] shadow-sm"
-                            : "border-gray-200 bg-gray-50 text-[#77778A] hover:bg-gray-100"
+                            ? "border-[#00ADB5] bg-[#00ADB5]/10 text-[#00ADB5] shadow-sm"
+                            : "border-[#374151] bg-[#111827] text-[#94A3B8] hover:border-[#4B5563] hover:text-[#CBD5E1]"
                         }`}
                       >
                         <div className="flex items-center gap-1.5 font-bold text-xs">
                           <Globe size={14} />
                           <span>Public Event</span>
                         </div>
-                        <span className="text-[10px] text-[#77778A] mt-1 line-clamp-2">
+                        <span className="text-[10px] text-[#94A3B8] mt-1 line-clamp-2">
                           Open for everyone to discover & register.
                         </span>
                       </button>
@@ -308,15 +306,15 @@ export const CreateEvent: React.FC = () => {
                         onClick={() => setEventType("private")}
                         className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
                           eventType === "private"
-                            ? "border-[#6C3BDB] bg-purple-50/60 text-[#6C3BDB] shadow-sm"
-                            : "border-gray-200 bg-gray-50 text-[#77778A] hover:bg-gray-100"
+                            ? "border-[#00ADB5] bg-[#00ADB5]/10 text-[#00ADB5] shadow-sm"
+                            : "border-[#374151] bg-[#111827] text-[#94A3B8] hover:border-[#4B5563] hover:text-[#CBD5E1]"
                         }`}
                       >
                         <div className="flex items-center gap-1.5 font-bold text-xs">
                           <Lock size={14} />
                           <span>Private Event</span>
                         </div>
-                        <span className="text-[10px] text-[#77778A] mt-1 line-clamp-2">
+                        <span className="text-[10px] text-[#94A3B8] mt-1 line-clamp-2">
                           Invite-only via direct private link.
                         </span>
                       </button>
@@ -326,7 +324,7 @@ export const CreateEvent: React.FC = () => {
 
                 {/* Description */}
                 <div>
-                  <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                  <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                     Event Description *
                   </label>
                   <textarea
@@ -335,21 +333,21 @@ export const CreateEvent: React.FC = () => {
                     placeholder="Describe your event, schedule, performers, or celebration details..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all resize-none"
                   />
                 </div>
               </div>
 
               {/* SECTION B: Event Banner Image */}
               <div className="space-y-4">
-                <div className="border-b border-gray-100 pb-3">
-                  <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                    <Calendar size={18} className="text-[#6C3BDB]" />
+                <div className="border-b border-[#374151] pb-3">
+                  <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                    <Calendar size={18} className="text-[#00ADB5]" />
                     <span>Section B: Event Banner Image</span>
                   </h3>
-                  <p className="text-xs text-[#77778A] mt-0.5">
+                  <p className="text-xs text-[#94A3B8] mt-0.5">
                     Images are stored directly on the local server in{" "}
-                    <code className="bg-gray-100 px-1 py-0.5 rounded text-[#202033]">
+                    <code className="bg-[#111827] px-1.5 py-0.5 rounded text-[#00ADB5] border border-[#374151] font-mono text-[11px]">
                       uploads/events/
                     </code>{" "}
                     (Max 5MB: JPG, PNG, WebP).
@@ -365,25 +363,25 @@ export const CreateEvent: React.FC = () => {
 
               {/* SECTION C: Event Date and Time (IST) */}
               <div className="space-y-4">
-                <div className="border-b border-gray-100 pb-3">
-                  <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                    <Clock size={18} className="text-[#6C3BDB]" />
+                <div className="border-b border-[#374151] pb-3">
+                  <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                    <Clock size={18} className="text-[#00ADB5]" />
                     <span>Section C: Event Date and Time (Indian Standard Time - IST)</span>
                   </h3>
-                  <p className="text-xs text-[#77778A] mt-0.5">
-                    Timestamps are standardized with the <code className="bg-gray-100 px-1 py-0.5 rounded">+05:30</code> offset.
+                  <p className="text-xs text-[#94A3B8] mt-0.5">
+                    Timestamps are standardized with the <code className="bg-[#111827] px-1.5 py-0.5 rounded text-[#00ADB5] border border-[#374151] font-mono text-[11px]">+05:30</code> offset.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   {/* Start Date & Time */}
-                  <div className="p-4 bg-gray-50/70 border border-gray-200 rounded-2xl space-y-3">
-                    <span className="text-xs font-bold text-[#202033] block">
+                  <div className="p-4 bg-[#111827] border border-[#374151] rounded-2xl space-y-3">
+                    <span className="text-xs font-bold text-[#F8FAFC] block">
                       Start Schedule *
                     </span>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-[11px] font-semibold text-[#77778A] mb-1">
+                        <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1">
                           Start Date
                         </label>
                         <input
@@ -391,11 +389,11 @@ export const CreateEvent: React.FC = () => {
                           required
                           value={startDate}
                           onChange={(e) => setStartDate(e.target.value)}
-                          className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs text-[#202033] focus:border-[#6C3BDB] focus:outline-none cursor-pointer"
+                          className="[color-scheme:dark] w-full px-3 py-2 bg-[#1F2937] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none cursor-pointer"
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-semibold text-[#77778A] mb-1">
+                        <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1">
                           Start Time (IST)
                         </label>
                         <input
@@ -403,20 +401,20 @@ export const CreateEvent: React.FC = () => {
                           required
                           value={startTime}
                           onChange={(e) => setStartTime(e.target.value)}
-                          className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs text-[#202033] focus:border-[#6C3BDB] focus:outline-none cursor-pointer"
+                          className="[color-scheme:dark] w-full px-3 py-2 bg-[#1F2937] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none cursor-pointer"
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* End Date & Time */}
-                  <div className="p-4 bg-gray-50/70 border border-gray-200 rounded-2xl space-y-3">
-                    <span className="text-xs font-bold text-[#202033] block">
+                  <div className="p-4 bg-[#111827] border border-[#374151] rounded-2xl space-y-3">
+                    <span className="text-xs font-bold text-[#F8FAFC] block">
                       End Schedule *
                     </span>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-[11px] font-semibold text-[#77778A] mb-1">
+                        <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1">
                           End Date
                         </label>
                         <input
@@ -425,11 +423,11 @@ export const CreateEvent: React.FC = () => {
                           value={endDate}
                           min={startDate || undefined}
                           onChange={(e) => setEndDate(e.target.value)}
-                          className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs text-[#202033] focus:border-[#6C3BDB] focus:outline-none cursor-pointer"
+                          className="[color-scheme:dark] w-full px-3 py-2 bg-[#1F2937] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none cursor-pointer"
                         />
                       </div>
                       <div>
-                        <label className="block text-[11px] font-semibold text-[#77778A] mb-1">
+                        <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1">
                           End Time (IST)
                         </label>
                         <input
@@ -437,7 +435,7 @@ export const CreateEvent: React.FC = () => {
                           required
                           value={endTime}
                           onChange={(e) => setEndTime(e.target.value)}
-                          className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs text-[#202033] focus:border-[#6C3BDB] focus:outline-none cursor-pointer"
+                          className="[color-scheme:dark] w-full px-3 py-2 bg-[#1F2937] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none cursor-pointer"
                         />
                       </div>
                     </div>
@@ -447,19 +445,19 @@ export const CreateEvent: React.FC = () => {
 
               {/* SECTION D: Venue Information */}
               <div className="space-y-4">
-                <div className="border-b border-gray-100 pb-3">
-                  <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                    <Building2 size={18} className="text-[#6C3BDB]" />
+                <div className="border-b border-[#374151] pb-3">
+                  <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                    <Building2 size={18} className="text-[#00ADB5]" />
                     <span>Section D: Venue Information</span>
                   </h3>
-                  <p className="text-xs text-[#77778A] mt-0.5">
+                  <p className="text-xs text-[#94A3B8] mt-0.5">
                     Physical location details for attendee directions and ticket passes.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                   <div>
-                    <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                    <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                       Venue Name *
                     </label>
                     <input
@@ -468,12 +466,12 @@ export const CreateEvent: React.FC = () => {
                       placeholder="e.g. City Convention Hall"
                       value={venue}
                       onChange={(e) => setVenue(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                      className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                    <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                       Full Address *
                     </label>
                     <input
@@ -482,12 +480,12 @@ export const CreateEvent: React.FC = () => {
                       placeholder="e.g. Near MI Road, C-Scheme"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                      className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                    <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                       City *
                     </label>
                     <input
@@ -496,7 +494,7 @@ export const CreateEvent: React.FC = () => {
                       placeholder="e.g. Jaipur"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                      className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                     />
                   </div>
                 </div>
@@ -504,18 +502,18 @@ export const CreateEvent: React.FC = () => {
 
               {/* SECTION E: Capacity and Publishing */}
               <div className="space-y-4">
-                <div className="border-b border-gray-100 pb-3">
-                  <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                    <Users size={18} className="text-[#6C3BDB]" />
+                <div className="border-b border-[#374151] pb-3">
+                  <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                    <Users size={18} className="text-[#00ADB5]" />
                     <span>Section E: Capacity and Publishing</span>
                   </h3>
-                  <p className="text-xs text-[#77778A] mt-0.5">
+                  <p className="text-xs text-[#94A3B8] mt-0.5">
                     Set attendance limits and choose whether to save as draft or publish immediately.
                   </p>
                 </div>
 
                 <div className="max-w-xs">
-                  <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                  <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                     Maximum Capacity (Max Attendees) *
                   </label>
                   <input
@@ -524,20 +522,20 @@ export const CreateEvent: React.FC = () => {
                     required
                     value={capacity}
                     onChange={(e) => setCapacity(Number(e.target.value))}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                    className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                   />
-                  <span className="text-[11px] text-[#77778A] mt-1 block">
+                  <span className="text-[11px] text-[#94A3B8] mt-1 block">
                     Public registrations or private RSVPs will halt once capacity is reached.
                   </span>
                 </div>
               </div>
 
               {/* ACTION BUTTONS (Save as Draft & Publish Event) */}
-              <div className="pt-6 flex flex-wrap items-center justify-end gap-3 border-t border-gray-100">
+              <div className="pt-6 flex flex-wrap items-center justify-end gap-3 border-t border-[#374151]">
                 <button
                   type="button"
                   onClick={() => navigate("/organizer/events")}
-                  className="px-6 py-3 text-sm font-semibold text-[#77778A] hover:bg-gray-100 rounded-xl transition-colors"
+                  className="px-6 py-3 text-sm font-semibold text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#293548] rounded-xl transition-colors"
                 >
                   Cancel
                 </button>
@@ -546,7 +544,7 @@ export const CreateEvent: React.FC = () => {
                   type="button"
                   disabled={loading}
                   onClick={() => handleSubmit("draft")}
-                  className="px-6 py-3.5 bg-gray-100 hover:bg-gray-200 text-[#202033] font-bold text-sm rounded-xl transition-all flex items-center gap-2 disabled:opacity-70"
+                  className="px-6 py-3.5 bg-[#293548] hover:bg-[#374151] text-[#CBD5E1] border border-[#374151] font-bold text-sm rounded-xl transition-all flex items-center gap-2 disabled:opacity-50"
                 >
                   <Save size={16} />
                   <span>Save as Draft</span>
@@ -556,11 +554,11 @@ export const CreateEvent: React.FC = () => {
                   type="button"
                   disabled={loading}
                   onClick={() => handleSubmit("published")}
-                  className="px-8 py-3.5 bg-[#6C3BDB] hover:bg-[#5032C4] text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-purple-600/25 flex items-center gap-2 disabled:opacity-70"
+                  className="px-8 py-3.5 bg-[#00ADB5] hover:bg-[#00949B] text-[#111827] font-bold text-sm rounded-xl transition-all shadow-md shadow-[#00ADB5]/20 flex items-center gap-2 disabled:opacity-50"
                 >
                   {loading ? (
                     <>
-                      <CircularProgress size={16} sx={{ color: "white" }} />
+                      <CircularProgress size={16} sx={{ color: "#111827" }} />
                       <span>Creating Event...</span>
                     </>
                   ) : (

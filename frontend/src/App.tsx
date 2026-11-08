@@ -48,7 +48,7 @@ export const App: React.FC = () => {
   const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#F8F8FC]">
+    <div className="flex flex-col min-h-screen bg-[#111827] text-[#F8FAFC]">
       {!isDashboardRoute && <Navbar />}
 
       <div className="flex-1">

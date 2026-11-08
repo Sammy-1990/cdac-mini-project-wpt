@@ -69,7 +69,7 @@ export const MyInvitations: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8FC] flex">
+    <div className="min-h-screen bg-[#1F2937] text-[#F8FAFC] flex">
       <DashboardSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -80,7 +80,7 @@ export const MyInvitations: React.FC = () => {
 
         <main className="p-6 sm:p-8 flex-1 space-y-6">
           {message && (
-            <Alert severity="info" className="rounded-xl text-xs" onClose={() => setMessage(null)}>
+            <Alert severity="info" className="rounded-xl text-xs bg-[#00ADB5]/15 border border-[#00ADB5]/30 text-[#00ADB5]" onClose={() => setMessage(null)}>
               {message}
             </Alert>
           )}
@@ -103,12 +103,12 @@ export const MyInvitations: React.FC = () => {
                 return (
                   <div
                     key={item._id}
-                    className="bg-white rounded-2xl border border-[#E9E8F0] p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                    className="bg-[#293548] rounded-2xl border border-[#374151] p-6 shadow-lg hover:border-[#00ADB5]/50 transition-all flex flex-col justify-between"
                   >
                     <div className="space-y-4">
                       {/* Category & Status */}
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-100">
+                        <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#1F2937] text-[#00ADB5] border border-[#374151]">
                           {formatCategory(event.category || "wedding")}
                         </span>
                         <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${statusStyle.bg}`}>
@@ -117,28 +117,28 @@ export const MyInvitations: React.FC = () => {
                       </div>
 
                       {/* Event Title */}
-                      <h3 className="text-xl font-bold text-[#202033] font-['Plus_Jakarta_Sans']">
+                      <h3 className="text-xl font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans']">
                         {event.title || "Private Event"}
                       </h3>
 
                       {/* Venue & Location */}
-                      <div className="space-y-1.5 text-xs text-[#77778A]">
+                      <div className="space-y-1.5 text-xs text-[#CBD5E1]">
                         <div className="flex items-center gap-2">
-                          <Building2 size={15} className="text-[#6C4CE8]" />
+                          <Building2 size={15} className="text-[#00ADB5]" />
                           <span>{event.venue || "Venue Provided by Host"}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <MapPin size={15} className="text-[#6C4CE8]" />
+                          <MapPin size={15} className="text-[#00ADB5]" />
                           <span>{event.city || "City TBA"}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="pt-4 mt-4 border-t border-gray-100 flex items-center justify-between gap-3">
+                    <div className="pt-4 mt-4 border-t border-[#374151] flex items-center justify-between gap-3">
                       <Link
                         to={`/invitation/${item._id}`}
-                        className="text-xs font-bold text-[#6C4CE8] hover:underline inline-flex items-center gap-1"
+                        className="text-xs font-bold text-[#00ADB5] hover:text-[#38BDF8] inline-flex items-center gap-1 transition-colors"
                       >
                         <span>Open Preview Card</span>
                         <ExternalLink size={13} />
@@ -149,16 +149,16 @@ export const MyInvitations: React.FC = () => {
                           <button
                             onClick={() => handleAccept(item._id)}
                             disabled={isProcessing}
-                            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold inline-flex items-center gap-1 transition-all shadow-sm"
+                            className="px-3.5 py-1.5 bg-[#00ADB5] hover:bg-[#00949B] text-[#111827] rounded-xl text-xs font-bold inline-flex items-center gap-1 transition-all shadow-md disabled:opacity-60"
                           >
-                            {isProcessing ? <CircularProgress size={13} sx={{ color: "white" }} /> : <Check size={14} />}
+                            {isProcessing ? <CircularProgress size={13} sx={{ color: "#111827" }} /> : <Check size={14} />}
                             <span>Accept</span>
                           </button>
 
                           <button
                             onClick={() => handleDecline(item._id)}
                             disabled={isProcessing}
-                            className="px-3 py-1.5 bg-gray-100 hover:bg-rose-50 text-gray-700 hover:text-rose-600 rounded-xl text-xs font-bold inline-flex items-center gap-1 transition-all"
+                            className="px-3.5 py-1.5 bg-transparent border border-[#F87171]/50 text-[#F87171] hover:bg-red-950/30 rounded-xl text-xs font-bold inline-flex items-center gap-1 transition-all disabled:opacity-60"
                           >
                             <X size={14} />
                             <span>Decline</span>
@@ -167,13 +167,13 @@ export const MyInvitations: React.FC = () => {
                       ) : item.status === "accepted" ? (
                         <Link
                           to="/guest/tickets"
-                          className="px-3 py-1.5 bg-purple-50 text-[#6C4CE8] hover:bg-purple-100 rounded-xl text-xs font-bold inline-flex items-center gap-1"
+                          className="px-3 py-1.5 bg-[#00ADB5]/15 border border-[#00ADB5]/30 text-[#00ADB5] hover:bg-[#00ADB5]/25 rounded-xl text-xs font-bold inline-flex items-center gap-1 transition-colors"
                         >
                           <Ticket size={14} />
                           <span>View Ticket</span>
                         </Link>
                       ) : (
-                        <span className="text-xs text-rose-500 font-semibold">Declined</span>
+                        <span className="text-xs text-[#F87171] font-semibold">Declined</span>
                       )}
                     </div>
                   </div>

@@ -83,9 +83,9 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-bold text-[#202033]">{label}</label>
+        <label className="block text-xs font-bold text-[#F8FAFC]">{label}</label>
         {previewUrl && (
-          <span className="text-[11px] font-semibold text-[#6C4CE8]">New image selected</span>
+          <span className="text-[11px] font-semibold text-[#00ADB5]">New image selected</span>
         )}
       </div>
 
@@ -96,10 +96,10 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
         onDragLeave={handleDragLeave}
         className={`relative group border-2 border-dashed rounded-2xl p-5 text-center cursor-pointer transition-all ${
           isDragging
-            ? "border-[#6C4CE8] bg-[#6C4CE8]/5"
+            ? "border-[#00ADB5] bg-[#00ADB5]/10"
             : effectivePreview
-            ? "border-[#E9E8F0] hover:border-[#6C4CE8] bg-gray-50/50"
-            : "border-gray-200 hover:border-[#6C4CE8] bg-gray-50 hover:bg-[#6C4CE8]/5"
+            ? "border-[#374151] hover:border-[#00ADB5] bg-[#1F2937]"
+            : "border-[#374151] hover:border-[#00ADB5] bg-[#1F2937] hover:bg-[#00ADB5]/5"
         }`}
       >
         <input
@@ -112,7 +112,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
         {effectivePreview ? (
           <div className="relative flex flex-col items-center">
-            <div className="relative w-full max-w-md h-48 rounded-xl overflow-hidden shadow-inner border border-gray-200 bg-gray-100">
+            <div className="relative w-full max-w-md h-48 rounded-xl overflow-hidden shadow-inner border border-[#374151] bg-[#111827]">
               <img
                 src={effectivePreview}
                 alt="Event preview"
@@ -122,30 +122,30 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                 type="button"
                 onClick={handleRemove}
                 title="Remove image"
-                className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition-colors"
+                className="absolute top-2 right-2 p-1.5 bg-black/70 hover:bg-black/90 text-white rounded-full transition-colors border border-white/20"
               >
                 <X size={16} />
               </button>
             </div>
-            <p className="mt-3 text-xs font-semibold text-[#6C4CE8] group-hover:underline flex items-center gap-1.5">
+            <p className="mt-3 text-xs font-semibold text-[#00ADB5] group-hover:underline flex items-center gap-1.5">
               <ImageIcon size={14} /> Click or drag to replace image
             </p>
           </div>
         ) : (
           <div className="py-6 flex flex-col items-center justify-center">
-            <div className="w-12 h-12 rounded-2xl bg-[#6C4CE8]/10 text-[#6C4CE8] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-2xl bg-[#00ADB5]/10 border border-[#00ADB5]/20 text-[#00ADB5] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <UploadCloud size={24} />
             </div>
-            <p className="text-sm font-bold text-[#202033]">
-              Click to upload <span className="font-normal text-[#77778A]">or drag and drop</span>
+            <p className="text-sm font-bold text-[#F8FAFC]">
+              Click to upload <span className="font-normal text-[#94A3B8]">or drag and drop</span>
             </p>
-            <p className="text-xs text-[#77778A] mt-1">{helperText}</p>
+            <p className="text-xs text-[#94A3B8] mt-1">{helperText}</p>
           </div>
         )}
       </div>
 
       {errorMessage && (
-        <div className="flex items-center gap-1.5 text-xs text-red-600 bg-red-50 p-2.5 rounded-xl border border-red-100">
+        <div className="flex items-center gap-1.5 text-xs text-[#F87171] bg-red-950/40 p-2.5 rounded-xl border border-red-800/50">
           <AlertCircle size={14} className="shrink-0" />
           <span>{errorMessage}</span>
         </div>

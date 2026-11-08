@@ -58,48 +58,48 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8FC] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#111827] text-[#F8FAFC] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
         {/* Left Decorative Illustration (Desktop Only) */}
-        <div className="hidden md:flex md:col-span-5 flex-col items-center justify-center text-center p-8 bg-gradient-to-br from-[#5032C4] to-[#6C4CE8] rounded-3xl text-white shadow-xl shadow-purple-600/20 space-y-6">
-          <div className="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center">
-            <Calendar size={36} className="text-white" />
+        <div className="hidden md:flex md:col-span-5 flex-col items-center justify-center text-center p-8 bg-[#293548] border border-[#374151] rounded-3xl text-[#F8FAFC] shadow-xl space-y-6">
+          <div className="w-16 h-16 rounded-2xl bg-[#1F2937] border border-[#374151] flex items-center justify-center text-[#00ADB5] shadow-inner">
+            <Calendar size={36} />
           </div>
           <div>
-            <h3 className="text-2xl font-extrabold font-['Plus_Jakarta_Sans']">Welcome Back!</h3>
-            <p className="text-sm text-purple-100 mt-2 leading-relaxed">
+            <h3 className="text-2xl font-extrabold font-['Plus_Jakarta_Sans'] text-[#F8FAFC]">Welcome Back!</h3>
+            <p className="text-sm text-[#CBD5E1] mt-2 leading-relaxed">
               Login to view your registrations, access verified QR tickets, and manage your events seamlessly.
             </p>
           </div>
-          <div className="pt-4 border-t border-white/10 w-full flex justify-around text-xs text-purple-200">
-            <span>✨ Fast QR Entry</span>
-            <span>🔒 Secure JWT</span>
+          <div className="pt-4 border-t border-[#374151] w-full flex justify-around text-xs text-[#94A3B8]">
+            <span className="text-[#00ADB5]">✨ Fast QR Entry</span>
+            <span className="text-[#38BDF8]">🔒 Secure JWT</span>
           </div>
         </div>
 
         {/* Right Form Card */}
-        <div className="md:col-span-7 bg-white p-8 sm:p-10 rounded-3xl border border-[#E9E8F0] shadow-sm">
+        <div className="md:col-span-7 bg-[#1F2937] p-8 sm:p-10 rounded-3xl border border-[#374151] shadow-2xl">
           {/* Brand Header */}
           <div className="text-center mb-8">
             <Link to="/home" className="inline-flex items-center gap-2 mb-3">
-              <div className="w-9 h-9 rounded-xl bg-[#6C4CE8] flex items-center justify-center text-white shadow-md shadow-purple-500/20">
-                <Ticket size={20} />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00ADB5] to-[#38BDF8] flex items-center justify-center text-[#111827] shadow-md font-bold">
+                <Ticket size={20} className="stroke-[2.5]" />
               </div>
-              <span className="font-extrabold text-2xl text-[#202033] font-['Plus_Jakarta_Sans']">
-                Event<span className="text-[#6C4CE8]">Flow</span>
+              <span className="font-extrabold text-2xl text-[#F8FAFC] font-['Plus_Jakarta_Sans']">
+                Event<span className="text-[#00ADB5]">Flow</span>
               </span>
             </Link>
-            <h2 className="text-xl sm:text-2xl font-bold text-[#202033] font-['Plus_Jakarta_Sans']">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans']">
               Login to EventFlow
             </h2>
-            <p className="text-xs sm:text-sm text-[#77778A] mt-1">
+            <p className="text-xs sm:text-sm text-[#94A3B8] mt-1">
               Access your events, tickets, invitations, and more.
             </p>
           </div>
 
           {/* Error Message */}
           {error && (
-            <Alert severity="error" className="mb-6 rounded-xl text-xs" icon={<AlertCircle size={18} />}>
+            <Alert severity="error" className="mb-6 rounded-xl text-xs bg-red-950/40 border border-red-800/50 text-[#F87171]" icon={<AlertCircle size={18} />}>
               {error}
             </Alert>
           )}
@@ -108,41 +108,41 @@ export const Login: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Field */}
             <div>
-              <label className="block text-xs font-semibold text-[#202033] mb-1.5">
+              <label className="block text-xs font-semibold text-[#CBD5E1] mb-1.5">
                 Email Address
               </label>
-              <div className="flex items-center gap-2.5 px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus-within:border-[#6C4CE8] focus-within:bg-white transition-all">
-                <Mail size={18} className="text-[#77778A]" />
+              <div className="flex items-center gap-2.5 px-3.5 py-2.5 bg-[#293548] border border-[#374151] rounded-xl focus-within:border-[#00ADB5] transition-colors">
+                <Mail size={18} className="text-[#94A3B8]" />
                 <input
                   type="email"
                   required
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-transparent text-sm text-[#202033] focus:outline-none"
+                  className="w-full bg-transparent text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:outline-none"
                 />
               </div>
             </div>
 
             {/* Password Field */}
             <div>
-              <label className="block text-xs font-semibold text-[#202033] mb-1.5">
+              <label className="block text-xs font-semibold text-[#CBD5E1] mb-1.5">
                 Password
               </label>
-              <div className="flex items-center gap-2.5 px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus-within:border-[#6C4CE8] focus-within:bg-white transition-all">
-                <Lock size={18} className="text-[#77778A]" />
+              <div className="flex items-center gap-2.5 px-3.5 py-2.5 bg-[#293548] border border-[#374151] rounded-xl focus-within:border-[#00ADB5] transition-colors">
+                <Lock size={18} className="text-[#94A3B8]" />
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-transparent text-sm text-[#202033] focus:outline-none"
+                  className="w-full bg-transparent text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="text-[#77778A] hover:text-[#202033]"
+                  className="text-[#94A3B8] hover:text-[#00ADB5]"
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -151,16 +151,16 @@ export const Login: React.FC = () => {
 
             {/* Remember Me & Note */}
             <div className="flex items-center justify-between text-xs">
-              <label className="flex items-center gap-2 text-[#77778A] cursor-pointer">
+              <label className="flex items-center gap-2 text-[#94A3B8] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded text-[#6C4CE8] focus:ring-[#6C4CE8]"
+                  className="rounded bg-[#293548] border-[#374151] text-[#00ADB5] focus:ring-[#00ADB5]"
                 />
                 <span>Remember me</span>
               </label>
-              <span className="text-[#6C4CE8] hover:underline cursor-pointer">
+              <span className="text-[#00ADB5] hover:underline cursor-pointer">
                 Forgot Password?
               </span>
             </div>
@@ -169,11 +169,11 @@ export const Login: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-[#6C4CE8] hover:bg-[#5032C4] text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-purple-600/20 flex items-center justify-center gap-2 disabled:opacity-70"
+              className="w-full py-3.5 bg-[#00ADB5] hover:bg-[#00949B] text-[#111827] font-bold text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-60"
             >
               {loading ? (
                 <>
-                  <CircularProgress size={18} sx={{ color: "white" }} />
+                  <CircularProgress size={18} sx={{ color: "#111827" }} />
                   <span>Signing In...</span>
                 </>
               ) : (
@@ -183,9 +183,9 @@ export const Login: React.FC = () => {
           </form>
 
           {/* Footer Link */}
-          <div className="mt-8 text-center text-xs text-[#77778A]">
+          <div className="mt-8 text-center text-xs text-[#94A3B8]">
             Don't have an account?{" "}
-            <Link to="/register" className="font-bold text-[#6C4CE8] hover:underline">
+            <Link to="/register" className="font-bold text-[#00ADB5] hover:text-[#38BDF8] hover:underline">
               Sign Up
             </Link>
           </div>

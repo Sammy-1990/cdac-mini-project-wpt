@@ -37,14 +37,14 @@ export const FeaturedEvents: React.FC = () => {
       {/* Section Header */}
       <div className="flex items-end justify-between mb-8">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#202033] font-['Plus_Jakarta_Sans']">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#F8FAFC] font-['Plus_Jakarta_Sans']">
             Featured Events
           </h2>
-          <p className="text-sm text-[#77778A] mt-1">Popular events you shouldn't miss</p>
+          <p className="text-sm text-[#94A3B8] mt-1">Popular events you shouldn't miss</p>
         </div>
         <Link
           to="/events"
-          className="inline-flex items-center gap-1 text-sm font-semibold text-[#6C4CE8] hover:text-[#5032C4] transition-colors"
+          className="inline-flex items-center gap-1 text-sm font-semibold text-[#00ADB5] hover:text-[#38BDF8] transition-colors"
         >
           <span>View All</span>
           <ArrowRight size={16} />
@@ -55,7 +55,7 @@ export const FeaturedEvents: React.FC = () => {
       {loading ? (
         <Loader message="Discovering exciting events around you..." />
       ) : error ? (
-        <div className="text-center p-8 bg-rose-50 border border-rose-200 rounded-2xl text-rose-700 text-sm">
+        <div className="text-center p-8 bg-red-950/40 border border-red-800/50 rounded-2xl text-[#F87171] text-sm">
           {error}
         </div>
       ) : events.length === 0 ? (

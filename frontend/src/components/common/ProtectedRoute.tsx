@@ -15,8 +15,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowe
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F8F8FC]">
-        <CircularProgress sx={{ color: "#6C4CE8" }} />
+      <div className="min-h-screen flex items-center justify-center bg-[#111827]">
+        <CircularProgress sx={{ color: "#00ADB5" }} />
       </div>
     );
   }

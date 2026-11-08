@@ -12,8 +12,8 @@ export const Loader: React.FC<LoaderProps> = ({ message = "Loading...", minHeigh
       className="flex flex-col items-center justify-center p-8 gap-3"
       style={{ minHeight }}
     >
-      <CircularProgress size={42} sx={{ color: "#6C4CE8" }} />
-      <p className="text-sm font-medium text-[#77778A]">{message}</p>
+      <CircularProgress size={40} sx={{ color: "#00ADB5" }} />
+      <p className="text-sm font-medium text-[#94A3B8]">{message}</p>
     </div>
   );
 };

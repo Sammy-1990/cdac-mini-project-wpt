@@ -9,13 +9,11 @@ import { EventItem } from "../../types/event.types";
 import {
   Users,
   UserPlus,
-  Mail,
   Copy,
   Check,
   ArrowLeft,
   ExternalLink,
   QrCode,
-  Calendar,
 } from "lucide-react";
 import {
   Dialog,
@@ -25,7 +23,6 @@ import {
   Button,
   TextField,
   Alert,
-  CircularProgress,
 } from "@mui/material";
 import { Loader } from "../../components/common/Loader";
 import { EmptyState } from "../../components/common/EmptyState";
@@ -111,7 +108,7 @@ export const EventParticipants: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8FC] flex">
+    <div className="min-h-screen bg-[#111827] flex">
       <DashboardSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -125,20 +122,20 @@ export const EventParticipants: React.FC = () => {
 
         <main className="p-6 sm:p-8 flex-1 space-y-6">
           {/* Top Actions & Summary */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-5 rounded-2xl border border-[#E9E8F0] shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-[#1F2937] p-5 rounded-2xl border border-[#374151] shadow-md">
             <div className="flex items-center gap-3">
               <Link
                 to="/organizer/events"
-                className="p-2 text-gray-500 hover:text-[#6C4CE8] rounded-lg hover:bg-gray-100"
+                className="p-2 text-[#94A3B8] hover:text-[#00ADB5] rounded-xl hover:bg-[#293548] transition-colors"
               >
                 <ArrowLeft size={18} />
               </Link>
               <div>
-                <p className="text-sm font-bold text-[#202033]">
+                <p className="text-sm font-bold text-[#F8FAFC]">
                   Total: {participants.length} Participant(s)
                 </p>
-                <p className="text-xs text-[#77778A]">
-                  Event Type: <span className="capitalize font-semibold text-[#6C4CE8]">{event?.eventType}</span>
+                <p className="text-xs text-[#94A3B8]">
+                  Event Type: <span className="capitalize font-semibold text-[#00ADB5]">{event?.eventType}</span>
                 </p>
               </div>
             </div>
@@ -146,7 +143,7 @@ export const EventParticipants: React.FC = () => {
             <div className="flex items-center gap-3">
               <Link
                 to={`/organizer/attendance?eventId=${eventId}`}
-                className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-xl inline-flex items-center gap-1.5 transition-colors"
+                className="px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold rounded-xl inline-flex items-center gap-1.5 transition-colors"
               >
                 <QrCode size={16} />
                 <span>QR Check-In Desk</span>
@@ -157,7 +154,7 @@ export const EventParticipants: React.FC = () => {
                   setInviteError(null);
                   setInviteModalOpen(true);
                 }}
-                className="px-4 py-2 bg-[#6C4CE8] hover:bg-[#5032C4] text-white text-xs font-bold rounded-xl inline-flex items-center gap-1.5 shadow-sm transition-all"
+                className="px-4 py-2 bg-[#00ADB5] hover:bg-[#00949B] text-[#111827] text-xs font-bold rounded-xl inline-flex items-center gap-1.5 shadow-md shadow-[#00ADB5]/20 transition-all"
               >
                 <UserPlus size={16} />
                 <span>Invite New Guest</span>
@@ -177,11 +174,11 @@ export const EventParticipants: React.FC = () => {
               onAction={() => setInviteModalOpen(true)}
             />
           ) : (
-            <div className="bg-white rounded-2xl border border-[#E9E8F0] shadow-sm overflow-hidden">
+            <div className="bg-[#293548] rounded-2xl border border-[#374151] shadow-lg overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
                   <thead>
-                    <tr className="bg-gray-50/70 border-b border-gray-100 text-[#77778A] font-semibold">
+                    <tr className="bg-[#1F2937] border-b border-[#374151] text-[#94A3B8] font-bold uppercase tracking-wider text-[11px]">
                       <th className="py-3.5 px-6">Attendee Name</th>
                       <th className="py-3.5 px-6">Email Address</th>
                       <th className="py-3.5 px-6">Participation Type</th>
@@ -189,19 +186,19 @@ export const EventParticipants: React.FC = () => {
                       <th className="py-3.5 px-6 text-right">Invitation Link / Token</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-100">
+                  <tbody className="divide-y divide-[#374151]">
                     {participants.map((p) => {
                       const statusStyle = getStatusBadgeStyle(p.status);
                       return (
-                        <tr key={p._id} className="hover:bg-gray-50/60 transition-colors">
-                          <td className="py-4 px-6 font-bold text-[#202033]">
+                        <tr key={p._id} className="hover:bg-[#1F2937]/50 transition-colors">
+                          <td className="py-4 px-6 font-bold text-[#F8FAFC]">
                             {p.name}
                           </td>
-                          <td className="py-4 px-6 text-[#77778A]">
+                          <td className="py-4 px-6 text-[#94A3B8]">
                             {p.email}
                           </td>
                           <td className="py-4 px-6">
-                            <span className="capitalize px-2 py-0.5 rounded-md bg-gray-100 text-gray-700 font-medium">
+                            <span className="capitalize px-2 py-0.5 rounded-md bg-[#1F2937] text-[#CBD5E1] border border-[#374151] font-medium">
                               {p.participationType}
                             </span>
                           </td>
@@ -210,18 +207,18 @@ export const EventParticipants: React.FC = () => {
                               {p.status.toUpperCase()}
                             </span>
                           </td>
-                          <td className="py-4 px-6 text-right font-mono text-[11px] text-[#77778A]">
+                          <td className="py-4 px-6 text-right font-mono text-[11px] text-[#94A3B8]">
                             {p.participationType === "invitation" ? (
                               <Link
                                 to={`/invitation/${p._id}`}
                                 target="_blank"
-                                className="text-[#6C4CE8] font-bold hover:underline inline-flex items-center gap-1"
+                                className="text-[#00ADB5] font-bold hover:underline inline-flex items-center gap-1"
                               >
                                 <span>Preview Link</span>
                                 <ExternalLink size={12} />
                               </Link>
                             ) : (
-                              <span>QR Pass Issued</span>
+                              <span className="text-emerald-400 font-semibold">QR Pass Issued</span>
                             )}
                           </td>
                         </tr>
@@ -241,15 +238,23 @@ export const EventParticipants: React.FC = () => {
         onClose={() => setInviteModalOpen(false)}
         maxWidth="sm"
         fullWidth
-        PaperProps={{ sx: { borderRadius: "16px", p: 1 } }}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1F2937",
+            border: "1px solid #374151",
+            color: "#F8FAFC",
+            borderRadius: "1.25rem",
+            p: 1,
+          },
+        }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#202033", fontFamily: "Plus Jakarta Sans" }}>
+        <DialogTitle sx={{ fontWeight: 800, color: "#F8FAFC", fontFamily: "Plus Jakarta Sans" }}>
           Invite Guest to Event
         </DialogTitle>
         <form onSubmit={handleInviteSubmit}>
           <DialogContent className="space-y-4">
             {inviteError && <Alert severity="error">{inviteError}</Alert>}
-            <p className="text-xs text-[#77778A]">
+            <p className="text-xs text-[#94A3B8]">
               Enter the guest's name and email. EventFlow will generate a dedicated invitation link that you can share with them.
             </p>
             <TextField
@@ -271,7 +276,7 @@ export const EventParticipants: React.FC = () => {
             />
           </DialogContent>
           <DialogActions sx={{ px: 3, pb: 2 }}>
-            <Button onClick={() => setInviteModalOpen(false)} sx={{ color: "#77778A", textTransform: "none" }}>
+            <Button onClick={() => setInviteModalOpen(false)} sx={{ color: "#94A3B8", textTransform: "none" }}>
               Cancel
             </Button>
             <Button
@@ -279,10 +284,11 @@ export const EventParticipants: React.FC = () => {
               variant="contained"
               disabled={inviting}
               sx={{
-                bgcolor: "#6C4CE8",
-                "&:hover": { bgcolor: "#5032C4" },
+                bgcolor: "#00ADB5",
+                color: "#111827",
+                "&:hover": { bgcolor: "#00949B" },
                 textTransform: "none",
-                fontWeight: 600,
+                fontWeight: 700,
                 borderRadius: "10px",
                 px: 3,
               }}
@@ -299,25 +305,33 @@ export const EventParticipants: React.FC = () => {
         onClose={() => setSuccessLink(null)}
         maxWidth="sm"
         fullWidth
-        PaperProps={{ sx: { borderRadius: "16px", p: 2 } }}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1F2937",
+            border: "1px solid #374151",
+            color: "#F8FAFC",
+            borderRadius: "1.25rem",
+            p: 2,
+          },
+        }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#16A36A", pb: 1, fontFamily: "Plus Jakarta Sans" }}>
+        <DialogTitle sx={{ fontWeight: 800, color: "#22C55E", pb: 1, fontFamily: "Plus Jakarta Sans" }}>
           Invitation Created Successfully! ✉️
         </DialogTitle>
         <DialogContent className="space-y-3">
-          <p className="text-xs text-[#77778A]">
+          <p className="text-xs text-[#94A3B8]">
             Share this link with your guest so they can preview event details and accept the invitation:
           </p>
-          <div className="flex items-center gap-2 p-3 bg-gray-50 border border-gray-200 rounded-xl">
+          <div className="flex items-center gap-2 p-3 bg-[#111827] border border-[#374151] rounded-xl">
             <input
               type="text"
               readOnly
               value={successLink || ""}
-              className="w-full bg-transparent text-xs font-mono text-[#202033] focus:outline-none"
+              className="w-full bg-transparent text-xs font-mono text-[#F8FAFC] focus:outline-none"
             />
             <button
               onClick={handleCopyLink}
-              className="px-3 py-1.5 bg-[#6C4CE8] text-white rounded-lg text-xs font-bold hover:bg-[#5032C4] shrink-0 inline-flex items-center gap-1 transition-all"
+              className="px-3 py-1.5 bg-[#00ADB5] text-[#111827] rounded-lg text-xs font-bold hover:bg-[#00949B] shrink-0 inline-flex items-center gap-1 transition-all"
             >
               {copied ? <Check size={14} /> : <Copy size={14} />}
               <span>{copied ? "Copied!" : "Copy"}</span>
@@ -328,7 +342,14 @@ export const EventParticipants: React.FC = () => {
           <Button
             onClick={() => setSuccessLink(null)}
             variant="contained"
-            sx={{ bgcolor: "#6C4CE8", textTransform: "none", borderRadius: "10px" }}
+            sx={{
+              bgcolor: "#00ADB5",
+              color: "#111827",
+              "&:hover": { bgcolor: "#00949B" },
+              textTransform: "none",
+              fontWeight: 700,
+              borderRadius: "10px",
+            }}
           >
             Done
           </Button>

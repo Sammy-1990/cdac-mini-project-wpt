@@ -9,9 +9,6 @@ import {
   Shield,
   Calendar,
   Lock,
-  Ticket,
-  CheckCircle2,
-  Building2,
   ExternalLink,
 } from "lucide-react";
 import { Loader } from "../../components/common/Loader";
@@ -39,7 +36,7 @@ export const AdminDashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F8F8FC] flex">
+    <div className="min-h-screen bg-[#111827] flex">
       <DashboardSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -55,7 +52,7 @@ export const AdminDashboard: React.FC = () => {
           {loading ? (
             <Loader message="Loading platform metrics..." />
           ) : !data ? (
-            <div className="p-8 bg-white rounded-2xl border text-[#77778A] text-center">
+            <div className="p-8 bg-[#1F2937] rounded-2xl border border-[#374151] text-[#94A3B8] text-center">
               Unable to load admin dashboard data.
             </div>
           ) : (
@@ -64,107 +61,107 @@ export const AdminDashboard: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <Link
                   to="/admin/users"
-                  className="p-4 bg-white rounded-2xl border border-[#E9E8F0] shadow-sm hover:border-[#6C4CE8] hover:shadow transition-all flex items-center justify-between group"
+                  className="p-4 bg-[#293548] rounded-2xl border border-[#374151] shadow-md hover:border-[#00ADB5] hover:shadow-lg transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-purple-50 text-[#6C4CE8] flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 rounded-xl bg-[#00ADB5]/10 text-[#00ADB5] border border-[#00ADB5]/20 flex items-center justify-center group-hover:scale-105 transition-transform">
                       <Users size={20} />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-[#202033]">Manage Users</p>
-                      <p className="text-[11px] text-[#77778A]">Promote guests & view accounts</p>
+                      <p className="text-sm font-bold text-[#F8FAFC]">Manage Users</p>
+                      <p className="text-[11px] text-[#94A3B8]">Promote guests & view accounts</p>
                     </div>
                   </div>
-                  <ExternalLink size={16} className="text-gray-400 group-hover:text-[#6C4CE8] transition-colors" />
+                  <ExternalLink size={16} className="text-[#94A3B8] group-hover:text-[#00ADB5] transition-colors" />
                 </Link>
 
                 <Link
                   to="/admin/events"
-                  className="p-4 bg-white rounded-2xl border border-[#E9E8F0] shadow-sm hover:border-[#6C4CE8] hover:shadow transition-all flex items-center justify-between group"
+                  className="p-4 bg-[#293548] rounded-2xl border border-[#374151] shadow-md hover:border-[#00ADB5] hover:shadow-lg transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 rounded-xl bg-[#38BDF8]/10 text-[#38BDF8] border border-[#38BDF8]/20 flex items-center justify-center group-hover:scale-105 transition-transform">
                       <Calendar size={20} />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-[#202033]">Manage Events</p>
-                      <p className="text-[11px] text-[#77778A]">Moderate & reassign organizers</p>
+                      <p className="text-sm font-bold text-[#F8FAFC]">Manage Events</p>
+                      <p className="text-[11px] text-[#94A3B8]">Moderate & reassign organizers</p>
                     </div>
                   </div>
-                  <ExternalLink size={16} className="text-gray-400 group-hover:text-[#6C4CE8] transition-colors" />
+                  <ExternalLink size={16} className="text-[#94A3B8] group-hover:text-[#00ADB5] transition-colors" />
                 </Link>
 
                 <Link
                   to="/admin/private-events"
-                  className="p-4 bg-white rounded-2xl border border-[#E9E8F0] shadow-sm hover:border-[#6C4CE8] hover:shadow transition-all flex items-center justify-between group"
+                  className="p-4 bg-[#293548] rounded-2xl border border-[#374151] shadow-md hover:border-[#00ADB5] hover:shadow-lg transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 rounded-xl bg-[#F87171]/10 text-[#F87171] border border-[#F87171]/20 flex items-center justify-center group-hover:scale-105 transition-transform">
                       <Lock size={20} />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-[#202033]">Private Events</p>
-                      <p className="text-[11px] text-[#77778A]">View all private celebrations</p>
+                      <p className="text-sm font-bold text-[#F8FAFC]">Private Events</p>
+                      <p className="text-[11px] text-[#94A3B8]">View all private celebrations</p>
                     </div>
                   </div>
-                  <ExternalLink size={16} className="text-gray-400 group-hover:text-[#6C4CE8] transition-colors" />
+                  <ExternalLink size={16} className="text-[#94A3B8] group-hover:text-[#00ADB5] transition-colors" />
                 </Link>
               </div>
 
-              {/* Stat Metric Cards (Matching Admin Mockup) */}
+              {/* Stat Metric Cards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
-                <div className="bg-white p-5 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <p className="text-xs text-[#77778A] font-semibold">Total Users</p>
-                  <p className="text-2xl font-extrabold text-[#202033] mt-1 font-['Plus_Jakarta_Sans']">
+                <div className="bg-[#293548] p-5 rounded-2xl border border-[#374151] shadow-md">
+                  <p className="text-xs text-[#94A3B8] font-semibold">Total Users</p>
+                  <p className="text-2xl font-extrabold text-[#00ADB5] mt-1 font-['Plus_Jakarta_Sans']">
                     {data.totalUsers}
                   </p>
                 </div>
 
-                <div className="bg-white p-5 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <p className="text-xs text-[#77778A] font-semibold">Organizers</p>
-                  <p className="text-2xl font-extrabold text-[#6C4CE8] mt-1 font-['Plus_Jakarta_Sans']">
+                <div className="bg-[#293548] p-5 rounded-2xl border border-[#374151] shadow-md">
+                  <p className="text-xs text-[#94A3B8] font-semibold">Organizers</p>
+                  <p className="text-2xl font-extrabold text-[#A78BFA] mt-1 font-['Plus_Jakarta_Sans']">
                     {data.organizers ? data.organizers.length : 0}
                   </p>
                 </div>
 
-                <div className="bg-white p-5 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <p className="text-xs text-[#77778A] font-semibold">Guests</p>
-                  <p className="text-2xl font-extrabold text-[#202033] mt-1 font-['Plus_Jakarta_Sans']">
+                <div className="bg-[#293548] p-5 rounded-2xl border border-[#374151] shadow-md">
+                  <p className="text-xs text-[#94A3B8] font-semibold">Guests</p>
+                  <p className="text-2xl font-extrabold text-[#38BDF8] mt-1 font-['Plus_Jakarta_Sans']">
                     {data.guests ? data.guests.length : 0}
                   </p>
                 </div>
 
-                <div className="bg-white p-5 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <p className="text-xs text-[#77778A] font-semibold">Total Events</p>
-                  <p className="text-2xl font-extrabold text-[#202033] mt-1 font-['Plus_Jakarta_Sans']">
+                <div className="bg-[#293548] p-5 rounded-2xl border border-[#374151] shadow-md">
+                  <p className="text-xs text-[#94A3B8] font-semibold">Total Events</p>
+                  <p className="text-2xl font-extrabold text-[#F8FAFC] mt-1 font-['Plus_Jakarta_Sans']">
                     {data.totalEvents}
                   </p>
                 </div>
 
-                <div className="bg-white p-5 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <p className="text-xs text-[#77778A] font-semibold">Public Events</p>
-                  <p className="text-2xl font-extrabold text-blue-600 mt-1 font-['Plus_Jakarta_Sans']">
+                <div className="bg-[#293548] p-5 rounded-2xl border border-[#374151] shadow-md">
+                  <p className="text-xs text-[#94A3B8] font-semibold">Public Events</p>
+                  <p className="text-2xl font-extrabold text-[#22C55E] mt-1 font-['Plus_Jakarta_Sans']">
                     {data.publicEvents ? data.publicEvents.length : 0}
                   </p>
                 </div>
 
-                <div className="bg-white p-5 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <p className="text-xs text-[#77778A] font-semibold">Private Events</p>
-                  <p className="text-2xl font-extrabold text-rose-500 mt-1 font-['Plus_Jakarta_Sans']">
+                <div className="bg-[#293548] p-5 rounded-2xl border border-[#374151] shadow-md">
+                  <p className="text-xs text-[#94A3B8] font-semibold">Private Events</p>
+                  <p className="text-2xl font-extrabold text-[#FBBF24] mt-1 font-['Plus_Jakarta_Sans']">
                     {data.privateEvents ? data.privateEvents.length : 0}
                   </p>
                 </div>
 
-                <div className="bg-white p-5 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <p className="text-xs text-[#77778A] font-semibold">Registrations</p>
-                  <p className="text-2xl font-extrabold text-[#6C4CE8] mt-1 font-['Plus_Jakarta_Sans']">
+                <div className="bg-[#293548] p-5 rounded-2xl border border-[#374151] shadow-md">
+                  <p className="text-xs text-[#94A3B8] font-semibold">Registrations</p>
+                  <p className="text-2xl font-extrabold text-[#00ADB5] mt-1 font-['Plus_Jakarta_Sans']">
                     {data.totalRegistrations}
                   </p>
                 </div>
 
-                <div className="bg-white p-5 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <p className="text-xs text-[#77778A] font-semibold">Attendance</p>
-                  <p className="text-2xl font-extrabold text-emerald-600 mt-1 font-['Plus_Jakarta_Sans']">
+                <div className="bg-[#293548] p-5 rounded-2xl border border-[#374151] shadow-md">
+                  <p className="text-xs text-[#94A3B8] font-semibold">Attendance</p>
+                  <p className="text-2xl font-extrabold text-[#38BDF8] mt-1 font-['Plus_Jakarta_Sans']">
                     {data.totalAttendanceRecords}
                   </p>
                 </div>
@@ -173,51 +170,51 @@ export const AdminDashboard: React.FC = () => {
               {/* Two Summary Columns: Organizers & Guests */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Organizers Roster */}
-                <div className="bg-white p-6 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <h3 className="text-base font-bold text-[#202033] mb-4 font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                    <Shield size={18} className="text-[#6C4CE8]" />
+                <div className="bg-[#293548] p-6 rounded-2xl border border-[#374151] shadow-md">
+                  <h3 className="text-base font-bold text-[#F8FAFC] mb-4 font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                    <Shield size={18} className="text-[#00ADB5]" />
                     <span>Registered Organizers ({data.organizers ? data.organizers.length : 0})</span>
                   </h3>
-                  <div className="divide-y divide-gray-100 text-xs">
+                  <div className="divide-y divide-[#374151] text-xs">
                     {data.organizers && data.organizers.length > 0 ? (
                       data.organizers.map((org) => (
                         <div key={org._id} className="py-2.5 flex items-center justify-between">
                           <div>
-                            <p className="font-bold text-[#202033]">{org.fullName}</p>
-                            <p className="text-[#77778A]">{org.email}</p>
+                            <p className="font-bold text-[#F8FAFC]">{org.fullName}</p>
+                            <p className="text-[#94A3B8]">{org.email}</p>
                           </div>
-                          <span className="px-2 py-0.5 rounded-full bg-purple-50 text-[#6C4CE8] font-bold text-[10px]">
+                          <span className="px-2 py-0.5 rounded-full bg-[#00ADB5]/10 text-[#00ADB5] border border-[#00ADB5]/20 font-bold text-[10px]">
                             ORGANIZER
                           </span>
                         </div>
                       ))
                     ) : (
-                      <p className="text-[#77778A] py-3">No organizers registered.</p>
+                      <p className="text-[#94A3B8] py-3">No organizers registered.</p>
                     )}
                   </div>
                 </div>
 
                 {/* Guest Users Roster */}
-                <div className="bg-white p-6 rounded-2xl border border-[#E9E8F0] shadow-sm">
-                  <h3 className="text-base font-bold text-[#202033] mb-4 font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                    <Users size={18} className="text-blue-500" />
+                <div className="bg-[#293548] p-6 rounded-2xl border border-[#374151] shadow-md">
+                  <h3 className="text-base font-bold text-[#F8FAFC] mb-4 font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                    <Users size={18} className="text-[#38BDF8]" />
                     <span>Registered Guests ({data.guests ? data.guests.length : 0})</span>
                   </h3>
-                  <div className="divide-y divide-gray-100 text-xs">
+                  <div className="divide-y divide-[#374151] text-xs">
                     {data.guests && data.guests.length > 0 ? (
                       data.guests.slice(0, 8).map((g) => (
                         <div key={g._id} className="py-2.5 flex items-center justify-between">
                           <div>
-                            <p className="font-bold text-[#202033]">{g.fullName}</p>
-                            <p className="text-[#77778A]">{g.email}</p>
+                            <p className="font-bold text-[#F8FAFC]">{g.fullName}</p>
+                            <p className="text-[#94A3B8]">{g.email}</p>
                           </div>
-                          <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 font-bold text-[10px]">
+                          <span className="px-2 py-0.5 rounded-full bg-[#1F2937] text-[#CBD5E1] border border-[#374151] font-bold text-[10px]">
                             GUEST
                           </span>
                         </div>
                       ))
                     ) : (
-                      <p className="text-[#77778A] py-3">No guests registered.</p>
+                      <p className="text-[#94A3B8] py-3">No guests registered.</p>
                     )}
                   </div>
                 </div>

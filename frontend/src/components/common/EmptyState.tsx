@@ -18,19 +18,20 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   onAction,
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center p-12 text-center bg-white rounded-2xl border border-[#E9E8F0] shadow-sm max-w-lg mx-auto my-8">
-      <div className="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center text-[#6C4CE8] mb-4">
+    <div className="flex flex-col items-center justify-center p-12 text-center bg-[#293548] rounded-2xl border border-[#374151] shadow-lg max-w-lg mx-auto my-8">
+      <div className="w-16 h-16 rounded-2xl bg-[#1F2937] border border-[#374151] flex items-center justify-center text-[#00ADB5] mb-4 shadow-inner">
         <Icon size={32} />
       </div>
-      <h3 className="text-xl font-bold text-[#202033] mb-2">{title}</h3>
-      <p className="text-[#77778A] text-sm max-w-sm mb-6">{description}</p>
+      <h3 className="text-xl font-bold text-[#F8FAFC] mb-2 font-['Plus_Jakarta_Sans']">{title}</h3>
+      <p className="text-[#CBD5E1] text-sm max-w-sm mb-6 leading-relaxed">{description}</p>
       {actionText && onAction && (
         <Button
           variant="contained"
           onClick={onAction}
           sx={{
-            bgcolor: "#6C4CE8",
-            "&:hover": { bgcolor: "#5032C4" },
+            bgcolor: "#00ADB5",
+            color: "#111827",
+            "&:hover": { bgcolor: "#00949B" },
             textTransform: "none",
             borderRadius: "10px",
             px: 3,

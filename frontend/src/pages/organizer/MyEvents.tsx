@@ -128,7 +128,7 @@ export const MyEvents: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7FC] flex">
+    <div className="min-h-screen bg-[#111827] flex">
       <DashboardSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -172,7 +172,7 @@ export const MyEvents: React.FC = () => {
                 return (
                   <div
                     key={ev._id}
-                    className="bg-white rounded-3xl border border-[#E9E8F0] overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                    className="bg-[#293548] rounded-3xl border border-[#374151] overflow-hidden shadow-lg hover:border-[#00ADB5]/50 transition-all flex flex-col justify-between"
                   >
                     {/* Event Banner */}
                     <div className={`h-44 w-full relative bg-gradient-to-br ${gradientClass} flex items-center justify-center overflow-hidden`}>
@@ -193,10 +193,10 @@ export const MyEvents: React.FC = () => {
 
                       {/* Top Badges */}
                       <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm bg-white/95 text-[#6C3BDB] border border-white/40">
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm bg-[#111827]/90 text-[#00ADB5] border border-[#00ADB5]/30">
                           {formatCategory(ev.category)}
                         </span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm bg-black/60 text-white backdrop-blur-sm flex items-center gap-1">
+                        <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm bg-black/60 text-[#F8FAFC] backdrop-blur-sm flex items-center gap-1">
                           {ev.eventType === "public" ? <Globe size={11} /> : <Lock size={11} />}
                           <span>{ev.eventType}</span>
                         </span>
@@ -213,38 +213,38 @@ export const MyEvents: React.FC = () => {
                     <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                       <div className="space-y-3">
                         {/* Event Title */}
-                        <h3 className="text-xl font-bold text-[#202033] font-['Plus_Jakarta_Sans'] line-clamp-1">
+                        <h3 className="text-xl font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] line-clamp-1">
                           {ev.title}
                         </h3>
 
                         {/* Details Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#77778A]">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#94A3B8]">
                           <p className="flex items-center gap-2 truncate">
-                            <Clock size={14} className="text-[#6C3BDB] shrink-0" />
+                            <Clock size={14} className="text-[#00ADB5] shrink-0" />
                             <span className="truncate">{startDisplay}</span>
                           </p>
                           <p className="flex items-center gap-2 truncate">
-                            <MapPin size={14} className="text-[#6C3BDB] shrink-0" />
+                            <MapPin size={14} className="text-[#00ADB5] shrink-0" />
                             <span className="truncate">{ev.venue}, {ev.city}</span>
                           </p>
                           <p className="flex items-center gap-2 truncate">
-                            <Users size={14} className="text-[#6C3BDB] shrink-0" />
+                            <Users size={14} className="text-[#00ADB5] shrink-0" />
                             <span>Capacity: {ev.capacity || 500} attendees</span>
                           </p>
-                          <p className="flex items-center gap-2 truncate font-semibold text-[#202033]">
-                            <Shield size={14} className="text-emerald-600 shrink-0" />
+                          <p className="flex items-center gap-2 truncate font-semibold text-emerald-400">
+                            <Shield size={14} className="text-emerald-400 shrink-0" />
                             <span className="capitalize">{ev.status}</span>
                           </p>
                         </div>
                       </div>
 
-                      {/* Action Bar (View Details, Edit Event, Cancel Event, Delete Event) */}
-                      <div className="pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2 mt-4">
+                      {/* Action Bar */}
+                      <div className="pt-4 border-t border-[#374151] flex flex-wrap items-center justify-between gap-2 mt-4">
                         {/* Secondary Links: Participants & Check-in */}
                         <div className="flex items-center gap-2">
                           <Link
                             to={`/organizer/events/${ev._id}/participants`}
-                            className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-[#6C3BDB] text-xs font-bold rounded-xl inline-flex items-center gap-1.5 transition-colors"
+                            className="px-3 py-1.5 bg-[#1F2937] hover:bg-[#374151] text-[#00ADB5] border border-[#374151] text-xs font-bold rounded-xl inline-flex items-center gap-1.5 transition-colors"
                           >
                             <Users size={13} />
                             <span>Participants</span>
@@ -252,7 +252,7 @@ export const MyEvents: React.FC = () => {
 
                           <Link
                             to={`/organizer/attendance?eventId=${ev._id}`}
-                            className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-xl inline-flex items-center gap-1.5 transition-colors"
+                            className="px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold rounded-xl inline-flex items-center gap-1.5 transition-colors"
                           >
                             <QrCode size={13} />
                             <span>Check-In</span>
@@ -264,16 +264,16 @@ export const MyEvents: React.FC = () => {
                           {/* 1. View Details */}
                           <Link
                             to={`/events/${ev._id}`}
-                            className="p-2 text-gray-500 hover:text-[#6C3BDB] hover:bg-gray-100 rounded-xl transition-colors"
+                            className="p-2 text-[#94A3B8] hover:text-[#00ADB5] hover:bg-[#1F2937] rounded-xl transition-colors"
                             title="View Public Details"
                           >
                             <ExternalLink size={16} />
                           </Link>
 
-                          {/* 2. Edit Event (Prominent Button) */}
+                          {/* 2. Edit Event */}
                           <Link
                             to={`/organizer/events/edit/${ev._id}`}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#6C3BDB] hover:bg-[#5032C4] text-white text-xs font-bold rounded-xl shadow-sm transition-all"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#00ADB5] hover:bg-[#00949B] text-[#111827] text-xs font-bold rounded-xl shadow-sm transition-all"
                             title="Edit Event"
                           >
                             <Edit2 size={13} />
@@ -284,7 +284,7 @@ export const MyEvents: React.FC = () => {
                           {ev.status !== "cancelled" && (
                             <button
                               onClick={() => openCancelDialog(ev)}
-                              className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-colors"
+                              className="p-2 text-[#94A3B8] hover:text-amber-400 hover:bg-amber-500/10 rounded-xl transition-colors"
                               title="Cancel Event"
                             >
                               <XCircle size={16} />
@@ -294,7 +294,7 @@ export const MyEvents: React.FC = () => {
                           {/* 4. Delete Event */}
                           <button
                             onClick={() => openDeleteDialog(ev)}
-                            className="p-2 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                            className="p-2 text-[#94A3B8] hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-colors"
                             title="Delete Event"
                           >
                             <Trash2 size={16} />
@@ -316,22 +316,30 @@ export const MyEvents: React.FC = () => {
         onClose={() => setDeleteDialogOpen(false)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: "16px", p: 1 } }}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1F2937",
+            border: "1px solid #374151",
+            color: "#F8FAFC",
+            borderRadius: "1.25rem",
+            p: 1,
+          },
+        }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#E5484D", display: "flex", alignItems: "center", gap: 1 }}>
+        <DialogTitle sx={{ fontWeight: 800, color: "#F87171", display: "flex", alignItems: "center", gap: 1 }}>
           <AlertTriangle size={22} />
           <span>Confirm Event Deletion</span>
         </DialogTitle>
         <DialogContent>
-          <p className="text-sm text-[#202033] mb-2">
-            Are you sure you want to permanently delete <strong>{selectedEvent?.title}</strong>?
+          <p className="text-sm text-[#CBD5E1] mb-2">
+            Are you sure you want to permanently delete <strong className="text-[#F8FAFC]">{selectedEvent?.title}</strong>?
           </p>
-          <p className="text-xs text-[#77778A] leading-relaxed">
+          <p className="text-xs text-[#94A3B8] leading-relaxed">
             Note: Draft events and events without participants can be safely deleted along with their local image files. Events with active registrations must be cancelled instead to protect attendee records.
           </p>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={() => setDeleteDialogOpen(false)} sx={{ color: "#77778A", textTransform: "none" }}>
+          <Button onClick={() => setDeleteDialogOpen(false)} sx={{ color: "#94A3B8", textTransform: "none" }}>
             Cancel
           </Button>
           <Button
@@ -352,22 +360,30 @@ export const MyEvents: React.FC = () => {
         onClose={() => setCancelDialogOpen(false)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: "16px", p: 1 } }}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1F2937",
+            border: "1px solid #374151",
+            color: "#F8FAFC",
+            borderRadius: "1.25rem",
+            p: 1,
+          },
+        }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#D97706", display: "flex", alignItems: "center", gap: 1 }}>
+        <DialogTitle sx={{ fontWeight: 800, color: "#FBBF24", display: "flex", alignItems: "center", gap: 1 }}>
           <AlertTriangle size={22} />
           <span>Cancel Event</span>
         </DialogTitle>
         <DialogContent>
-          <p className="text-sm text-[#202033] mb-2">
-            Are you sure you want to cancel <strong>{selectedEvent?.title}</strong>?
+          <p className="text-sm text-[#CBD5E1] mb-2">
+            Are you sure you want to cancel <strong className="text-[#F8FAFC]">{selectedEvent?.title}</strong>?
           </p>
-          <p className="text-xs text-[#77778A] leading-relaxed">
+          <p className="text-xs text-[#94A3B8] leading-relaxed">
             The event will be marked as "CANCELLED", stopping any new registrations while keeping attendee history and the banner image intact.
           </p>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={() => setCancelDialogOpen(false)} sx={{ color: "#77778A", textTransform: "none" }}>
+          <Button onClick={() => setCancelDialogOpen(false)} sx={{ color: "#94A3B8", textTransform: "none" }}>
             Keep Active
           </Button>
           <Button

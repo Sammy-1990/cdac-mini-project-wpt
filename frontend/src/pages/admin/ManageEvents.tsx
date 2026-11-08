@@ -4,7 +4,7 @@ import { DashboardSidebar } from "../../components/dashboard/DashboardSidebar";
 import { DashboardHeader } from "../../components/dashboard/DashboardHeader";
 import { adminService, AdminUser } from "../../services/adminService";
 import { eventService } from "../../services/eventService";
-import { EventItem, EventStatus } from "../../types/event.types";
+import { EventItem } from "../../types/event.types";
 import {
   Calendar,
   Search,
@@ -146,7 +146,7 @@ export const ManageEvents: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8FC] flex">
+    <div className="min-h-screen bg-[#111827] flex">
       <DashboardSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -167,35 +167,35 @@ export const ManageEvents: React.FC = () => {
           )}
 
           {/* Search & Filter Bar */}
-          <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E9E8F0] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="bg-[#1F2937] p-4 sm:p-5 rounded-2xl border border-[#374151] shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
             <form onSubmit={handleSearchSubmit} className="relative w-full sm:w-80">
-              <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
               <input
                 type="text"
                 placeholder="Search events by title..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-[#202033] focus:bg-white focus:border-[#6C4CE8] focus:outline-none"
+                className="w-full pl-10 pr-4 py-2 bg-[#111827] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none"
               />
             </form>
 
             <div className="flex items-center gap-3 w-full sm:w-auto">
-              <Filter size={16} className="text-gray-400" />
+              <Filter size={16} className="text-[#94A3B8]" />
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-[#202033] focus:bg-white focus:border-[#6C4CE8] focus:outline-none cursor-pointer"
+                className="px-3.5 py-2 bg-[#111827] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none cursor-pointer"
               >
-                <option value="">All Statuses</option>
-                <option value="published">Published</option>
-                <option value="draft">Draft</option>
-                <option value="cancelled">Cancelled</option>
-                <option value="completed">Completed</option>
+                <option value="" className="bg-[#1F2937] text-[#F8FAFC]">All Statuses</option>
+                <option value="published" className="bg-[#1F2937] text-[#F8FAFC]">Published</option>
+                <option value="draft" className="bg-[#1F2937] text-[#F8FAFC]">Draft</option>
+                <option value="cancelled" className="bg-[#1F2937] text-[#F8FAFC]">Cancelled</option>
+                <option value="completed" className="bg-[#1F2937] text-[#F8FAFC]">Completed</option>
               </select>
               <button
                 type="button"
                 onClick={fetchEvents}
-                className="px-4 py-2 bg-[#6C4CE8] text-white text-xs font-bold rounded-xl hover:bg-[#5032C4] transition-colors"
+                className="px-4 py-2 bg-[#00ADB5] text-[#111827] text-xs font-bold rounded-xl hover:bg-[#00949B] transition-colors"
               >
                 Refresh
               </button>
@@ -212,10 +212,10 @@ export const ManageEvents: React.FC = () => {
               description="No events match your current search and filters."
             />
           ) : (
-            <div className="bg-white rounded-2xl border border-[#E9E8F0] overflow-hidden shadow-sm">
+            <div className="bg-[#293548] rounded-2xl border border-[#374151] overflow-hidden shadow-lg">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-gray-50/80 text-[#77778A] font-bold uppercase tracking-wider border-b border-[#E9E8F0]">
+                  <thead className="bg-[#1F2937] text-[#94A3B8] font-bold uppercase tracking-wider text-[11px] border-b border-[#374151]">
                     <tr>
                       <th className="py-4 px-6">Event</th>
                       <th className="py-4 px-6">Category / Type</th>
@@ -225,51 +225,51 @@ export const ManageEvents: React.FC = () => {
                       <th className="py-4 px-6 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#E9E8F0]">
+                  <tbody className="divide-y divide-[#374151]">
                     {events.map((ev) => {
                       const statusStyle = getStatusBadgeStyle(ev.status);
                       const org = typeof ev.organizerId === "object" ? ev.organizerId : null;
                       const bannerImg = ev.eventImage || ev.coverImage;
 
                       return (
-                        <tr key={ev._id} className="hover:bg-gray-50/50 transition-colors">
+                        <tr key={ev._id} className="hover:bg-[#1F2937]/50 transition-colors">
                           <td className="py-4 px-6">
                             <div className="flex items-center gap-3">
                               {bannerImg ? (
                                 <img
                                   src={getImageUrl(bannerImg)}
                                   alt={ev.title}
-                                  className="w-12 h-10 rounded-lg object-cover bg-gray-100 shrink-0"
+                                  className="w-12 h-10 rounded-lg object-cover bg-[#1F2937] border border-[#374151] shrink-0"
                                   onError={(e) => {
                                     (e.currentTarget as HTMLElement).style.display = 'none';
                                   }}
                                 />
                               ) : (
-                                <div className="w-12 h-10 rounded-lg bg-purple-50 text-[#6C4CE8] flex items-center justify-center font-bold shrink-0">
+                                <div className="w-12 h-10 rounded-lg bg-[#00ADB5]/10 text-[#00ADB5] border border-[#00ADB5]/20 flex items-center justify-center font-bold shrink-0">
                                   <Calendar size={18} />
                                 </div>
                               )}
                               <div>
-                                <p className="font-bold text-[#202033] text-sm line-clamp-1">{ev.title}</p>
-                                <p className="text-[11px] text-[#77778A] flex items-center gap-1 mt-0.5">
-                                  <MapPin size={12} /> {ev.venue}, {ev.city}
+                                <p className="font-bold text-[#F8FAFC] text-sm line-clamp-1">{ev.title}</p>
+                                <p className="text-[11px] text-[#94A3B8] flex items-center gap-1 mt-0.5">
+                                  <MapPin size={12} className="text-[#00ADB5]" /> {ev.venue}, {ev.city}
                                 </p>
                               </div>
                             </div>
                           </td>
                           <td className="py-4 px-6">
                             <div className="space-y-1">
-                              <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-50 text-[#6C4CE8] border border-purple-200">
+                              <span className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#00ADB5]/10 text-[#00ADB5] border border-[#00ADB5]/20">
                                 {formatCategory(ev.category)}
                               </span>
-                              <p className="text-[11px] text-gray-500 capitalize">{ev.eventType}</p>
+                              <p className="text-[11px] text-[#94A3B8] capitalize">{ev.eventType}</p>
                             </div>
                           </td>
                           <td className="py-4 px-6">
-                            <p className="font-semibold text-[#202033]">{org?.fullName || "Assigned Organizer"}</p>
-                            <p className="text-[11px] text-[#77778A]">{org?.email || "N/A"}</p>
+                            <p className="font-semibold text-[#F8FAFC]">{org?.fullName || "Assigned Organizer"}</p>
+                            <p className="text-[11px] text-[#94A3B8]">{org?.email || "N/A"}</p>
                           </td>
-                          <td className="py-4 px-6 text-[#77778A]">
+                          <td className="py-4 px-6 text-[#94A3B8]">
                             {ev.startDateIST || formatISTDate(ev.startDate)}
                           </td>
                           <td className="py-4 px-6">
@@ -281,7 +281,7 @@ export const ManageEvents: React.FC = () => {
                             <div className="flex items-center justify-end gap-1.5">
                               <Link
                                 to={`/events/${ev._id}`}
-                                className="p-1.5 text-gray-400 hover:text-[#6C4CE8] rounded-lg transition-colors"
+                                className="p-1.5 text-[#94A3B8] hover:text-[#00ADB5] hover:bg-[#1F2937] rounded-lg transition-colors"
                                 title="View Event Page"
                               >
                                 <ExternalLink size={16} />
@@ -289,7 +289,7 @@ export const ManageEvents: React.FC = () => {
 
                               <button
                                 onClick={() => openReassignModal(ev)}
-                                className="px-2.5 py-1 text-xs font-semibold bg-purple-50 text-[#6C4CE8] hover:bg-purple-100 rounded-lg transition-colors inline-flex items-center gap-1"
+                                className="px-2.5 py-1 text-xs font-semibold bg-[#1F2937] text-[#00ADB5] border border-[#374151] hover:bg-[#374151] rounded-lg transition-colors inline-flex items-center gap-1"
                                 title="Reassign Organizer"
                               >
                                 <UserCheck size={14} />
@@ -299,7 +299,7 @@ export const ManageEvents: React.FC = () => {
                               {ev.status !== "cancelled" && (
                                 <button
                                   onClick={() => openCancelModal(ev)}
-                                  className="p-1.5 text-gray-400 hover:text-amber-600 rounded-lg transition-colors"
+                                  className="p-1.5 text-[#94A3B8] hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors"
                                   title="Cancel Event"
                                 >
                                   <XCircle size={16} />
@@ -324,15 +324,23 @@ export const ManageEvents: React.FC = () => {
         onClose={() => setReassignModalOpen(false)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: "16px", p: 1 } }}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1F2937",
+            border: "1px solid #374151",
+            color: "#F8FAFC",
+            borderRadius: "1.25rem",
+            p: 1,
+          },
+        }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#202033", display: "flex", alignItems: "center", gap: 1 }}>
-          <UserCheck size={20} className="text-[#6C4CE8]" />
+        <DialogTitle sx={{ fontWeight: 800, color: "#F8FAFC", display: "flex", alignItems: "center", gap: 1 }}>
+          <UserCheck size={20} className="text-[#00ADB5]" />
           <span>Reassign Event Organizer</span>
         </DialogTitle>
         <DialogContent className="space-y-4 pt-2">
-          <p className="text-xs text-[#77778A]">
-            Transfer ownership of <strong>{selectedEvent?.title}</strong> to a different organizer.
+          <p className="text-xs text-[#94A3B8]">
+            Transfer ownership of <strong className="text-[#F8FAFC]">{selectedEvent?.title}</strong> to a different organizer.
           </p>
 
           <FormControl fullWidth size="small">
@@ -352,7 +360,7 @@ export const ManageEvents: React.FC = () => {
           </FormControl>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={() => setReassignModalOpen(false)} sx={{ color: "#77778A", textTransform: "none" }}>
+          <Button onClick={() => setReassignModalOpen(false)} sx={{ color: "#94A3B8", textTransform: "none" }}>
             Cancel
           </Button>
           <Button
@@ -360,8 +368,9 @@ export const ManageEvents: React.FC = () => {
             disabled={reassigning || !selectedOrganizerId}
             onClick={handleReassign}
             sx={{
-              backgroundColor: "#6C4CE8",
-              "&:hover": { backgroundColor: "#5032C4" },
+              backgroundColor: "#00ADB5",
+              color: "#111827",
+              "&:hover": { backgroundColor: "#00949B" },
               textTransform: "none",
               fontWeight: 700,
               borderRadius: "10px",
@@ -378,22 +387,30 @@ export const ManageEvents: React.FC = () => {
         onClose={() => setCancelModalOpen(false)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: "16px", p: 1 } }}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1F2937",
+            border: "1px solid #374151",
+            color: "#F8FAFC",
+            borderRadius: "1.25rem",
+            p: 1,
+          },
+        }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#D97706", display: "flex", alignItems: "center", gap: 1 }}>
+        <DialogTitle sx={{ fontWeight: 800, color: "#FBBF24", display: "flex", alignItems: "center", gap: 1 }}>
           <AlertTriangle size={20} />
           <span>Cancel Event</span>
         </DialogTitle>
         <DialogContent>
-          <p className="text-sm text-[#202033] mb-2">
-            Are you sure you want to administratively cancel <strong>{selectedEvent?.title}</strong>?
+          <p className="text-sm text-[#CBD5E1] mb-2">
+            Are you sure you want to administratively cancel <strong className="text-[#F8FAFC]">{selectedEvent?.title}</strong>?
           </p>
-          <p className="text-xs text-[#77778A]">
+          <p className="text-xs text-[#94A3B8]">
             The event status will be changed to "cancelled", stopping any new registrations.
           </p>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={() => setCancelModalOpen(false)} sx={{ color: "#77778A", textTransform: "none" }}>
+          <Button onClick={() => setCancelModalOpen(false)} sx={{ color: "#94A3B8", textTransform: "none" }}>
             Keep Active
           </Button>
           <Button

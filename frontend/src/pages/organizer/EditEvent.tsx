@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   Globe,
   Lock,
-  MapPin,
   Building2,
   Users,
   FileText,
@@ -99,18 +98,20 @@ export const EditEvent: React.FC = () => {
           setExistingImage(storedImg);
           setImageMode(storedImg ? "keep" : "replace");
 
-          // Parse start and end date/time into separate input fields
-          const startParsed = splitISTDateTime(ev.startDate);
-          setStartDate(startParsed.date);
-          setStartTime(startParsed.time || "10:00");
+          // Parse start and end date/time into separate input values
+          const startSplit = splitISTDateTime(ev.startDate);
+          setStartDate(startSplit.date);
+          setStartTime(startSplit.time);
 
-          const endParsed = splitISTDateTime(ev.endDate);
-          setEndDate(endParsed.date);
-          setEndTime(endParsed.time || "18:00");
+          const endSplit = splitISTDateTime(ev.endDate);
+          setEndDate(endSplit.date);
+          setEndTime(endSplit.time);
+        } else {
+          setError("Event could not be found.");
         }
       } catch (err: any) {
-        console.error("Error loading event for edit:", err);
-        setError("Failed to load existing event data.");
+        console.error("Fetch event error:", err);
+        setError("Failed to load event details. Please verify your connection.");
       } finally {
         setInitialLoading(false);
       }
@@ -124,7 +125,7 @@ export const EditEvent: React.FC = () => {
     if (!effectiveEventId) return;
     setError(null);
 
-    // Validations
+    // Basic Validations
     if (!title.trim()) {
       setError("Please provide an Event Title.");
       return;
@@ -134,11 +135,11 @@ export const EditEvent: React.FC = () => {
       return;
     }
     if (!startDate || !startTime) {
-      setError("Please specify both Start Date and Start Time.");
+      setError("Please select both a Start Date and Start Time.");
       return;
     }
     if (!endDate || !endTime) {
-      setError("Please specify both End Date and End Time.");
+      setError("Please select both an End Date and End Time.");
       return;
     }
 
@@ -150,7 +151,7 @@ export const EditEvent: React.FC = () => {
     const endObj = new Date(endISO);
 
     if (isNaN(startObj.getTime()) || isNaN(endObj.getTime())) {
-      setError("Invalid date or time selected.");
+      setError("Invalid date or time selected. Please check your inputs.");
       return;
     }
 
@@ -160,7 +161,12 @@ export const EditEvent: React.FC = () => {
     }
 
     if (!venue.trim() || !address.trim() || !city.trim()) {
-      setError("Please complete the Venue Name, Address, and City.");
+      setError("Please fill in the Venue Name, Address, and City.");
+      return;
+    }
+
+    if (!capacity || Number(capacity) < 1) {
+      setError("Maximum Capacity must be at least 1 attendee.");
       return;
     }
 
@@ -168,7 +174,7 @@ export const EditEvent: React.FC = () => {
       setLoading(true);
 
       if (imageMode === "replace" && selectedImageFile) {
-        // Send multipart form-data with replaced image
+        // Send multipart form-data to update event with a new image upload
         const formData = new FormData();
         formData.append("title", title.trim());
         formData.append("category", category);
@@ -193,7 +199,7 @@ export const EditEvent: React.FC = () => {
           setError(response?.message || "Failed to update event.");
         }
       } else {
-        // Retain existing image, send JSON payload
+        // Send JSON payload keeping existing image
         const payload: any = {
           title: title.trim(),
           category,
@@ -207,6 +213,10 @@ export const EditEvent: React.FC = () => {
           capacity: Number(capacity),
           status,
         };
+
+        if (existingImage) {
+          payload.eventImage = existingImage;
+        }
 
         const response = await eventService.updateEvent(effectiveEventId, payload);
         if (response && response.success) {
@@ -222,7 +232,7 @@ export const EditEvent: React.FC = () => {
       console.error("Update error:", err);
       setError(
         err.response?.data?.message ||
-          "Failed to update event. Please review form entries."
+          "Failed to update event. Please verify all fields and backend status."
       );
     } finally {
       setLoading(false);
@@ -230,13 +240,13 @@ export const EditEvent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7FC] flex">
+    <div className="min-h-screen bg-[#111827] flex">
       <DashboardSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
         <DashboardHeader
-          title="Edit Event Details"
-          subtitle="Update specifications, banner image, schedule or venue"
+          title="Edit Event"
+          subtitle="Modify details, schedule, banner image, or attendee limits"
           actionText="Back to My Events"
           actionPath="/organizer/events"
           actionIcon={<ArrowLeft size={16} />}
@@ -246,7 +256,7 @@ export const EditEvent: React.FC = () => {
           {initialLoading ? (
             <Loader message="Loading event settings from backend..." />
           ) : (
-            <div className="bg-white rounded-3xl border border-[#E9E8F0] p-6 sm:p-10 shadow-sm">
+            <div className="bg-[#1F2937] rounded-3xl border border-[#374151] p-6 sm:p-10 shadow-xl">
               {error && (
                 <Alert
                   severity="error"
@@ -270,19 +280,19 @@ export const EditEvent: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-10">
                 {/* SECTION A: Basic Event Information */}
                 <div className="space-y-5">
-                  <div className="border-b border-gray-100 pb-3">
-                    <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                      <FileText size={18} className="text-[#6C3BDB]" />
+                  <div className="border-b border-[#374151] pb-3">
+                    <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                      <FileText size={18} className="text-[#00ADB5]" />
                       <span>Section A: Basic Event Information</span>
                     </h3>
-                    <p className="text-xs text-[#77778A] mt-0.5">
+                    <p className="text-xs text-[#94A3B8] mt-0.5">
                       Update title, category enum, and discovery type.
                     </p>
                   </div>
 
                   {/* Title */}
                   <div>
-                    <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                    <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                       Event Title *
                     </label>
                     <input
@@ -290,23 +300,23 @@ export const EditEvent: React.FC = () => {
                       required
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                      className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                     />
                   </div>
 
                   {/* Category & Event Type */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                      <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                         Category *
                       </label>
                       <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value as EventCategory)}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all cursor-pointer capitalize"
+                        className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none transition-all cursor-pointer capitalize"
                       >
                         {CATEGORIES.map((cat) => (
-                          <option key={cat.value} value={cat.value}>
+                          <option key={cat.value} value={cat.value} className="bg-[#1F2937] text-[#F8FAFC]">
                             {cat.label}
                           </option>
                         ))}
@@ -314,7 +324,7 @@ export const EditEvent: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                      <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                         Event Visibility (Type) *
                       </label>
                       <div className="grid grid-cols-2 gap-3">
@@ -323,16 +333,16 @@ export const EditEvent: React.FC = () => {
                           onClick={() => setEventType("public")}
                           className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
                             eventType === "public"
-                              ? "border-[#6C3BDB] bg-purple-50/60 text-[#6C3BDB] shadow-sm"
-                              : "border-gray-200 bg-gray-50 text-[#77778A] hover:bg-gray-100"
+                              ? "border-[#00ADB5] bg-[#00ADB5]/10 text-[#00ADB5] shadow-sm"
+                              : "border-[#374151] bg-[#111827] text-[#94A3B8] hover:border-[#4B5563] hover:text-[#CBD5E1]"
                           }`}
                         >
                           <div className="flex items-center gap-1.5 font-bold text-xs">
                             <Globe size={14} />
                             <span>Public Event</span>
                           </div>
-                          <span className="text-[10px] text-[#77778A] mt-1">
-                            Discoverable by everyone.
+                          <span className="text-[10px] text-[#94A3B8] mt-1 line-clamp-2">
+                            Open for discovery & registration.
                           </span>
                         </button>
 
@@ -341,16 +351,16 @@ export const EditEvent: React.FC = () => {
                           onClick={() => setEventType("private")}
                           className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
                             eventType === "private"
-                              ? "border-[#6C3BDB] bg-purple-50/60 text-[#6C3BDB] shadow-sm"
-                              : "border-gray-200 bg-gray-50 text-[#77778A] hover:bg-gray-100"
+                              ? "border-[#00ADB5] bg-[#00ADB5]/10 text-[#00ADB5] shadow-sm"
+                              : "border-[#374151] bg-[#111827] text-[#94A3B8] hover:border-[#4B5563] hover:text-[#CBD5E1]"
                           }`}
                         >
                           <div className="flex items-center gap-1.5 font-bold text-xs">
                             <Lock size={14} />
                             <span>Private Event</span>
                           </div>
-                          <span className="text-[10px] text-[#77778A] mt-1">
-                            Invite-only via link.
+                          <span className="text-[10px] text-[#94A3B8] mt-1 line-clamp-2">
+                            Invite-only via direct link.
                           </span>
                         </button>
                       </div>
@@ -359,27 +369,27 @@ export const EditEvent: React.FC = () => {
 
                   {/* Description */}
                   <div>
-                    <label className="block text-xs font-bold text-[#202033] mb-1.5">
-                      Description *
+                    <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
+                      Event Description *
                     </label>
                     <textarea
                       rows={4}
                       required
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all resize-none"
+                      className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all resize-none"
                     />
                   </div>
                 </div>
 
                 {/* SECTION B: Event Banner Image (Keep Existing vs Replace Image) */}
                 <div className="space-y-4">
-                  <div className="border-b border-gray-100 pb-3">
-                    <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                      <ImageIcon size={18} className="text-[#6C3BDB]" />
+                  <div className="border-b border-[#374151] pb-3">
+                    <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                      <ImageIcon size={18} className="text-[#00ADB5]" />
                       <span>Section B: Event Banner Image</span>
                     </h3>
-                    <p className="text-xs text-[#77778A] mt-0.5">
+                    <p className="text-xs text-[#94A3B8] mt-0.5">
                       Retain current image or select a new file to replace it locally.
                     </p>
                   </div>
@@ -396,8 +406,8 @@ export const EditEvent: React.FC = () => {
                           }}
                           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
                             imageMode === "keep"
-                              ? "bg-[#6C3BDB] text-white shadow-sm"
-                              : "bg-gray-100 text-[#77778A] hover:bg-gray-200"
+                              ? "bg-[#00ADB5] text-[#111827] shadow-sm"
+                              : "bg-[#293548] text-[#94A3B8] hover:bg-[#374151] hover:text-[#CBD5E1]"
                           }`}
                         >
                           <CheckCircle2 size={14} />
@@ -409,8 +419,8 @@ export const EditEvent: React.FC = () => {
                           onClick={() => setImageMode("replace")}
                           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
                             imageMode === "replace"
-                              ? "bg-[#6C3BDB] text-white shadow-sm"
-                              : "bg-gray-100 text-[#77778A] hover:bg-gray-200"
+                              ? "bg-[#00ADB5] text-[#111827] shadow-sm"
+                              : "bg-[#293548] text-[#94A3B8] hover:bg-[#374151] hover:text-[#CBD5E1]"
                           }`}
                         >
                           <RefreshCw size={14} />
@@ -419,23 +429,23 @@ export const EditEvent: React.FC = () => {
                       </div>
 
                       {imageMode === "keep" && (
-                        <div className="p-4 bg-gray-50 rounded-2xl border border-gray-200 flex flex-col sm:flex-row items-center gap-4">
+                        <div className="p-4 bg-[#111827] rounded-2xl border border-[#374151] flex flex-col sm:flex-row items-center gap-4">
                           <img
                             src={getImageUrl(existingImage)}
                             alt="Current banner"
-                            className="w-36 h-24 rounded-xl object-cover border border-gray-200 shadow-sm"
+                            className="w-36 h-24 rounded-xl object-cover border border-[#374151] shadow-sm"
                             onError={(e) => {
                               (e.currentTarget as HTMLElement).style.display = "none";
                             }}
                           />
                           <div>
-                            <p className="text-xs font-bold text-[#202033]">
+                            <p className="text-xs font-bold text-[#F8FAFC]">
                               Current Saved Banner
                             </p>
-                            <p className="text-[11px] text-[#77778A] mt-0.5 font-mono">
+                            <p className="text-[11px] text-[#94A3B8] mt-0.5 font-mono">
                               {existingImage}
                             </p>
-                            <span className="inline-block mt-2 text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-semibold border border-emerald-200">
+                            <span className="inline-block mt-2 text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-semibold border border-emerald-500/20">
                               ✓ Existing image will be kept unchanged
                             </span>
                           </div>
@@ -448,33 +458,33 @@ export const EditEvent: React.FC = () => {
                     <ImageUpload
                       currentImageUrl={existingImage}
                       onFileSelect={(file) => setSelectedImageFile(file)}
-                      label="Select New Image (Replaces Old File on Server)"
-                      helperText="Choose a new JPG, PNG, or WebP file (Max 5MB). The old image file will be automatically deleted from disk."
+                      label="Select New Replacement Banner"
+                      helperText="Supported formats: JPG, PNG, WebP (Max size: 5MB). Selecting a file will overwrite the existing event banner."
                     />
                   )}
                 </div>
 
                 {/* SECTION C: Event Date and Time (IST) */}
                 <div className="space-y-4">
-                  <div className="border-b border-gray-100 pb-3">
-                    <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                      <Clock size={18} className="text-[#6C3BDB]" />
+                  <div className="border-b border-[#374151] pb-3">
+                    <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                      <Clock size={18} className="text-[#00ADB5]" />
                       <span>Section C: Event Date and Time (Indian Standard Time - IST)</span>
                     </h3>
-                    <p className="text-xs text-[#77778A] mt-0.5">
-                      Adjust start and end schedules in IST.
+                    <p className="text-xs text-[#94A3B8] mt-0.5">
+                      Timestamps are converted and stored with the <code className="bg-[#111827] px-1.5 py-0.5 rounded text-[#00ADB5] border border-[#374151] font-mono text-[11px]">+05:30</code> offset.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {/* Start Schedule */}
-                    <div className="p-4 bg-gray-50/70 border border-gray-200 rounded-2xl space-y-3">
-                      <span className="text-xs font-bold text-[#202033] block">
+                    {/* Start Date & Time */}
+                    <div className="p-4 bg-[#111827] border border-[#374151] rounded-2xl space-y-3">
+                      <span className="text-xs font-bold text-[#F8FAFC] block">
                         Start Schedule *
                       </span>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-[11px] font-semibold text-[#77778A] mb-1">
+                          <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1">
                             Start Date
                           </label>
                           <input
@@ -482,11 +492,11 @@ export const EditEvent: React.FC = () => {
                             required
                             value={startDate}
                             onChange={(e) => setStartDate(e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs text-[#202033] focus:border-[#6C3BDB] focus:outline-none cursor-pointer"
+                            className="[color-scheme:dark] w-full px-3 py-2 bg-[#1F2937] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none cursor-pointer"
                           />
                         </div>
                         <div>
-                          <label className="block text-[11px] font-semibold text-[#77778A] mb-1">
+                          <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1">
                             Start Time (IST)
                           </label>
                           <input
@@ -494,20 +504,20 @@ export const EditEvent: React.FC = () => {
                             required
                             value={startTime}
                             onChange={(e) => setStartTime(e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs text-[#202033] focus:border-[#6C3BDB] focus:outline-none cursor-pointer"
+                            className="[color-scheme:dark] w-full px-3 py-2 bg-[#1F2937] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none cursor-pointer"
                           />
                         </div>
                       </div>
                     </div>
 
-                    {/* End Schedule */}
-                    <div className="p-4 bg-gray-50/70 border border-gray-200 rounded-2xl space-y-3">
-                      <span className="text-xs font-bold text-[#202033] block">
+                    {/* End Date & Time */}
+                    <div className="p-4 bg-[#111827] border border-[#374151] rounded-2xl space-y-3">
+                      <span className="text-xs font-bold text-[#F8FAFC] block">
                         End Schedule *
                       </span>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-[11px] font-semibold text-[#77778A] mb-1">
+                          <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1">
                             End Date
                           </label>
                           <input
@@ -516,11 +526,11 @@ export const EditEvent: React.FC = () => {
                             value={endDate}
                             min={startDate || undefined}
                             onChange={(e) => setEndDate(e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs text-[#202033] focus:border-[#6C3BDB] focus:outline-none cursor-pointer"
+                            className="[color-scheme:dark] w-full px-3 py-2 bg-[#1F2937] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none cursor-pointer"
                           />
                         </div>
                         <div>
-                          <label className="block text-[11px] font-semibold text-[#77778A] mb-1">
+                          <label className="block text-[11px] font-semibold text-[#94A3B8] mb-1">
                             End Time (IST)
                           </label>
                           <input
@@ -528,7 +538,7 @@ export const EditEvent: React.FC = () => {
                             required
                             value={endTime}
                             onChange={(e) => setEndTime(e.target.value)}
-                            className="w-full px-3 py-2 bg-white border border-gray-200 rounded-xl text-xs text-[#202033] focus:border-[#6C3BDB] focus:outline-none cursor-pointer"
+                            className="[color-scheme:dark] w-full px-3 py-2 bg-[#1F2937] border border-[#374151] rounded-xl text-xs text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none cursor-pointer"
                           />
                         </div>
                       </div>
@@ -538,19 +548,19 @@ export const EditEvent: React.FC = () => {
 
                 {/* SECTION D: Venue Information */}
                 <div className="space-y-4">
-                  <div className="border-b border-gray-100 pb-3">
-                    <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                      <Building2 size={18} className="text-[#6C3BDB]" />
+                  <div className="border-b border-[#374151] pb-3">
+                    <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                      <Building2 size={18} className="text-[#00ADB5]" />
                       <span>Section D: Venue Information</span>
                     </h3>
-                    <p className="text-xs text-[#77778A] mt-0.5">
-                      Update venue name, address, and city.
+                    <p className="text-xs text-[#94A3B8] mt-0.5">
+                      Physical location details for attendee directions and ticket passes.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                     <div>
-                      <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                      <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                         Venue Name *
                       </label>
                       <input
@@ -558,25 +568,25 @@ export const EditEvent: React.FC = () => {
                         required
                         value={venue}
                         onChange={(e) => setVenue(e.target.value)}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                        className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#202033] mb-1.5">
-                        Address *
+                      <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
+                        Full Address *
                       </label>
                       <input
                         type="text"
                         required
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                        className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                      <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                         City *
                       </label>
                       <input
@@ -584,7 +594,7 @@ export const EditEvent: React.FC = () => {
                         required
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                        className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -592,19 +602,19 @@ export const EditEvent: React.FC = () => {
 
                 {/* SECTION E: Capacity and Publishing Status */}
                 <div className="space-y-4">
-                  <div className="border-b border-gray-100 pb-3">
-                    <h3 className="text-base font-bold text-[#202033] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
-                      <Users size={18} className="text-[#6C3BDB]" />
+                  <div className="border-b border-[#374151] pb-3">
+                    <h3 className="text-base font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans'] flex items-center gap-2">
+                      <Users size={18} className="text-[#00ADB5]" />
                       <span>Section E: Capacity and Status</span>
                     </h3>
-                    <p className="text-xs text-[#77778A] mt-0.5">
+                    <p className="text-xs text-[#94A3B8] mt-0.5">
                       Adjust attendee capacity and publish status.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                      <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                         Capacity *
                       </label>
                       <input
@@ -613,45 +623,45 @@ export const EditEvent: React.FC = () => {
                         required
                         value={capacity}
                         onChange={(e) => setCapacity(Number(e.target.value))}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all"
+                        className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] placeholder-[#94A3B8] focus:border-[#00ADB5] focus:outline-none transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#202033] mb-1.5">
+                      <label className="block text-xs font-bold text-[#CBD5E1] mb-1.5">
                         Event Status *
                       </label>
                       <select
                         value={status}
                         onChange={(e) => setStatus(e.target.value as EventStatus)}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-[#202033] focus:bg-white focus:border-[#6C3BDB] focus:outline-none transition-all cursor-pointer capitalize"
+                        className="w-full px-4 py-3 bg-[#111827] border border-[#374151] rounded-xl text-sm text-[#F8FAFC] focus:border-[#00ADB5] focus:outline-none transition-all cursor-pointer capitalize"
                       >
-                        <option value="published">Published</option>
-                        <option value="draft">Draft</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
+                        <option value="published" className="bg-[#1F2937] text-[#F8FAFC]">Published</option>
+                        <option value="draft" className="bg-[#1F2937] text-[#F8FAFC]">Draft</option>
+                        <option value="completed" className="bg-[#1F2937] text-[#F8FAFC]">Completed</option>
+                        <option value="cancelled" className="bg-[#1F2937] text-[#F8FAFC]">Cancelled</option>
                       </select>
                     </div>
                   </div>
                 </div>
 
                 {/* SUBMIT BUTTONS */}
-                <div className="pt-6 flex items-center justify-end gap-3 border-t border-gray-100">
+                <div className="pt-6 flex items-center justify-end gap-3 border-t border-[#374151]">
                   <button
                     type="button"
                     onClick={() => navigate("/organizer/events")}
-                    className="px-6 py-3 text-sm font-semibold text-[#77778A] hover:bg-gray-100 rounded-xl transition-colors"
+                    className="px-6 py-3 text-sm font-semibold text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#293548] rounded-xl transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-8 py-3.5 bg-[#6C3BDB] hover:bg-[#5032C4] text-white font-bold text-sm rounded-xl transition-all shadow-md shadow-purple-600/25 flex items-center gap-2 disabled:opacity-70"
+                    className="px-8 py-3.5 bg-[#00ADB5] hover:bg-[#00949B] text-[#111827] font-bold text-sm rounded-xl transition-all shadow-md shadow-[#00ADB5]/20 flex items-center gap-2 disabled:opacity-50"
                   >
                     {loading ? (
                       <>
-                        <CircularProgress size={16} sx={{ color: "white" }} />
+                        <CircularProgress size={16} sx={{ color: "#111827" }} />
                         <span>Saving Changes...</span>
                       </>
                     ) : (

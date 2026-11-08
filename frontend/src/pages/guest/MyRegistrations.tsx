@@ -70,7 +70,7 @@ export const MyRegistrations: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8FC] flex">
+    <div className="min-h-screen bg-[#1F2937] text-[#F8FAFC] flex">
       <DashboardSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -112,12 +112,12 @@ export const MyRegistrations: React.FC = () => {
                 return (
                   <div
                     key={item._id}
-                    className="bg-white rounded-2xl border border-[#E9E8F0] p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                    className="bg-[#293548] rounded-2xl border border-[#374151] p-6 shadow-lg hover:border-[#00ADB5]/50 transition-all flex flex-col justify-between"
                   >
                     <div className="space-y-4">
                       {/* Category & Status */}
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-purple-50 text-[#6C4CE8] border border-purple-100">
+                        <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#1F2937] text-[#00ADB5] border border-[#374151]">
                           {formatCategory(event.category || "Event")}
                         </span>
                         <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${statusStyle.bg}`}>
@@ -126,30 +126,30 @@ export const MyRegistrations: React.FC = () => {
                       </div>
 
                       {/* Event Title */}
-                      <h3 className="text-xl font-bold text-[#202033] font-['Plus_Jakarta_Sans']">
+                      <h3 className="text-xl font-bold text-[#F8FAFC] font-['Plus_Jakarta_Sans']">
                         {event.title || "Event Title"}
                       </h3>
 
                       {/* Venue & Location */}
-                      <div className="space-y-1.5 text-xs text-[#77778A]">
+                      <div className="space-y-1.5 text-xs text-[#CBD5E1]">
                         <div className="flex items-center gap-2">
-                          <Building2 size={15} className="text-[#6C4CE8]" />
+                          <Building2 size={15} className="text-[#00ADB5]" />
                           <span>{event.venue || "Venue TBA"}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <MapPin size={15} className="text-[#6C4CE8]" />
+                          <MapPin size={15} className="text-[#00ADB5]" />
                           <span>{event.city || "City TBA"}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 size={15} className="text-emerald-500" />
+                          <CheckCircle2 size={15} className="text-[#22C55E]" />
                           <span>Registered as: {item.name} ({item.email})</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Bottom Action */}
-                    <div className="pt-4 mt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
-                      <span className="text-[11px] font-mono text-[#77778A]">
+                    <div className="pt-4 mt-4 border-t border-[#374151] flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-[11px] font-mono text-[#94A3B8]">
                         QR Token: {item.qrToken ? `${item.qrToken.substring(0, 10)}...` : "Active"}
                       </span>
 
@@ -157,7 +157,7 @@ export const MyRegistrations: React.FC = () => {
                         {!isCancelled && (
                           <button
                             onClick={() => openCancelModal(item)}
-                            className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                            className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-[#F87171] hover:bg-red-950/20 rounded-xl transition-colors border border-transparent hover:border-red-900/40"
                           >
                             <XCircle size={14} />
                             <span>Cancel Registration</span>
@@ -166,7 +166,7 @@ export const MyRegistrations: React.FC = () => {
 
                         <Link
                           to="/guest/tickets"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#6C4CE8] hover:bg-[#5032C4] text-white text-xs font-bold rounded-xl shadow-sm transition-all"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#00ADB5] hover:bg-[#00949B] text-[#111827] text-xs font-bold rounded-xl shadow-md transition-all"
                         >
                           <Ticket size={14} />
                           <span>View Ticket</span>
@@ -187,22 +187,22 @@ export const MyRegistrations: React.FC = () => {
         onClose={() => setCancelModalOpen(false)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: "16px", p: 1 } }}
+        PaperProps={{ sx: { borderRadius: "16px", p: 1, backgroundColor: "#1F2937", border: "1px solid #374151", color: "#F8FAFC" } }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#E5484D", display: "flex", alignItems: "center", gap: 1 }}>
+        <DialogTitle sx={{ fontWeight: 800, color: "#F87171", display: "flex", alignItems: "center", gap: 1 }}>
           <AlertTriangle size={20} />
           <span>Cancel Registration</span>
         </DialogTitle>
         <DialogContent>
-          <p className="text-sm text-[#202033] mb-2">
+          <p className="text-sm text-[#F8FAFC] mb-2">
             Are you sure you want to cancel your registration for this event?
           </p>
-          <p className="text-xs text-[#77778A]">
+          <p className="text-xs text-[#94A3B8]">
             Your registration will be marked as cancelled, freeing up a spot for other attendees.
           </p>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={() => setCancelModalOpen(false)} sx={{ color: "#77778A", textTransform: "none" }}>
+          <Button onClick={() => setCancelModalOpen(false)} sx={{ color: "#94A3B8", textTransform: "none" }}>
             Keep Ticket
           </Button>
           <Button
